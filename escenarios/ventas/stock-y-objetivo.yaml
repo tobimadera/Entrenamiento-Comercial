@@ -1,0 +1,42 @@
+# EJEMPLO INICIAL: reemplazar o ajustar con conversaciones reales.
+id: ventas-stock-y-objetivo
+foco: ventas
+dificultad: media
+titulo:
+  es: "No quiere tomar el objetivo de compra del trimestre"
+  pt: "Não quer assumir a meta de compra do trimestre"
+# Lo que ve el representante antes de empezar.
+consigna:
+  es: "El concesionario viene comprando 20% por debajo del objetivo mayorista. Conseguí que el dueño se comprometa con el objetivo del trimestre y con tomar el mix completo, incluido el modelo nuevo."
+  pt: "A concessionária vem comprando 20% abaixo da meta de atacado. Consiga que o dono se comprometa com a meta do trimestre e com o mix completo, incluindo o modelo novo."
+
+# Todo lo que sigue es privado: solo lo conoce el personaje.
+dueno:
+  nombre: { ar: "Roberto Giménez", br: "Roberto Guimarães" }
+  edad: 58
+  perfil: >
+    Segunda generación al frente del negocio familiar. Conservador con la caja,
+    directo, algo irónico. Respeta a quien conoce sus números y pierde la paciencia
+    con los discursos de marca. Mira el negocio mes a mes.
+concesionario: >
+  Concesionario mediano en una ciudad del interior, un punto de venta y un taller.
+  Vende unas 45 unidades por mes. Tiene 70 días de stock, cuando lo sano es 45.
+situacion: >
+  El costo financiero del stock (floorplan) le está comiendo el margen. Tiene 12
+  unidades de un modelo que rota lento y siente que la marca le "empuja" autos para
+  cumplir sus propios números. Su equipo de ventas es de 4 personas y no hace
+  seguimiento de prospectos: se pierden muchas consultas digitales.
+objeciones:
+  - "Con esta tasa, cada auto parado me cuesta plata todos los días."
+  - "Ustedes me llenan el playón con lo que no se vende y me racionan lo que sí."
+  - "El objetivo lo arman en un escritorio, no conocen mi plaza."
+  - "El modelo nuevo no lo pide nadie acá todavía."
+que_lo_mueve:
+  - Que el representante muestre que entiende su costo financiero con números concretos.
+  - Un plan para rotar las 12 unidades lentas antes de pedirle más compra.
+  - Evidencia de la demanda perdida en su zona (consultas sin atender, participación de mercado contra competidores).
+  - Compromisos concretos de la marca a cambio (apoyo comercial, prioridad de asignación en modelos de alta rotación), sin promesas vagas.
+limite: >
+  Como mucho acepta el objetivo completo si hay un plan para el stock lento y un
+  compromiso verificable de la marca. Si solo recibe presión, ofrece comprar lo
+  mismo que el trimestre pasado y nada más.

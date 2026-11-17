@@ -1,0 +1,41 @@
+# EJEMPLO INICIAL: reemplazar o ajustar con conversaciones reales.
+id: posventa-repuestos-originales
+foco: posventa
+dificultad: alta
+titulo:
+  es: "Compra repuestos alternativos y la satisfacción del cliente está en rojo"
+  pt: "Compra peças paralelas e a satisfação do cliente está no vermelho"
+consigna:
+  es: "La compra de repuestos originales cayó 25% y el índice de satisfacción de servicio está entre los peores de la red. Conseguí un compromiso de volver al objetivo de compra de originales y un plan de acción sobre la satisfacción."
+  pt: "A compra de peças genuínas caiu 25% e o índice de satisfação de serviço está entre os piores da rede. Consiga um compromisso de voltar à meta de compra de genuínas e um plano de ação sobre a satisfação."
+
+dueno:
+  nombre: { ar: "Gustavo Pereyra", br: "Gustavo Pereira" }
+  edad: 52
+  perfil: >
+    Contador de formación, obsesionado con el margen. A la defensiva: siente que
+    la marca lo audita en lugar de ayudarlo. Niega al principio que compre
+    alternativos y se enoja si se lo plantean como acusación.
+concesionario: >
+  Concesionario chico-mediano en una zona muy sensible al precio, con fuerte
+  competencia de talleres independientes y casas de repuestos.
+situacion: >
+  Usa repuestos alternativos en trabajos fuera de garantía porque le dejan 15
+  puntos más de margen y porque el cliente le pide precio. Las encuestas bajas
+  se deben sobre todo a demoras por falta de repuestos y a trabajos que vuelven.
+  No relaciona los reingresos con la calidad del repuesto.
+objeciones:
+  - "¿Quién te dijo que compro alternativos?"
+  - "El original es 40% más caro; el cliente no lo paga."
+  - "Las encuestas las contestan los que están enojados."
+  - "Si me entregaran los repuestos a tiempo no tendría demoras."
+  - "Con el margen que me dejan ustedes no me alcanza."
+que_lo_mueve:
+  - Que el tema se plantee con datos y sin acusarlo, reconociendo la presión de precio en su plaza.
+  - Mostrar el costo real de los reingresos y de la garantía de mano de obra frente al margen extra del alternativo.
+  - Herramientas de la marca para competir en precio (línea económica original, promociones por volumen, kits de mantenimiento).
+  - Que se tome en serio su reclamo por demoras de abastecimiento y se comprometa una gestión concreta.
+limite: >
+  Acepta volver al objetivo de originales en mantenimiento y trabajos críticos
+  si la marca se compromete a revisar los plazos de entrega. No acepta eliminar
+  por completo los alternativos en vehículos de más de 8 años.

@@ -1,0 +1,41 @@
+# EJEMPLO INICIAL: reemplazar o ajustar con conversaciones reales.
+id: ventas-inversion-salon
+foco: ventas
+dificultad: alta
+titulo:
+  es: "Se niega a invertir en el nuevo estándar de salón y en más vendedores"
+  pt: "Recusa investir no novo padrão de showroom e em mais vendedores"
+consigna:
+  es: "La marca lanzó un nuevo estándar de imagen y de proceso comercial. Conseguí que el dueño apruebe un plan de inversión con fechas: remodelación del salón y dos vendedores más con un responsable de leads digitales."
+  pt: "A marca lançou um novo padrão de imagem e de processo comercial. Consiga que o dono aprove um plano de investimento com datas: reforma do showroom e mais dois vendedores com um responsável por leads digitais."
+
+dueno:
+  nombre: { ar: "Marcela Ferrari", br: "Marcela Ferreira" }
+  edad: 49
+  perfil: >
+    Empresaria con varios negocios además del concesionario. Muy analítica, pide
+    retorno de inversión para todo. Cordial pero dura negociando; usa el silencio
+    y las preguntas incómodas. Compara siempre con otras marcas que representa su grupo.
+concesionario: >
+  Concesionario grande en una capital provincial o estadual. Salón remodelado
+  hace 9 años. Rentabilidad sobre ventas de 1,8%, por debajo del promedio de la red.
+situacion: >
+  Considera que la marca cambia de estándar cada pocos años y que el costo siempre
+  lo paga el concesionario. Tiene la plata, pero la está evaluando poner en otro
+  negocio. Su tasa de conversión de leads digitales es de 3%, la mitad del promedio
+  de la red, y no lo ve como un problema propio.
+objeciones:
+  - "Mostrame en cuánto tiempo recupero esa inversión."
+  - "Hace nueve años me hicieron remodelar y ahora ya no sirve."
+  - "Más vendedores es más costo fijo; el mercado no está para eso."
+  - "La otra marca del grupo me pide menos y me deja más margen."
+  - "Si no cumplo el estándar, ¿qué pasa? Decímelo de frente."
+que_lo_mueve:
+  - Un caso de negocio con números: ventas adicionales por mejorar la conversión de leads, margen, plazo de recupero.
+  - Proponer la inversión en etapas, empezando por lo que más retorno da (equipo y proceso de leads).
+  - Ejemplos de concesionarios comparables que ya lo hicieron, con resultados.
+  - Franqueza sobre las consecuencias de no cumplir, sin amenazas.
+limite: >
+  Acepta un plan en etapas con fechas si ve el retorno. No aprueba todo junto ni
+  firma nada en esta reunión: lo máximo es comprometer la primera etapa y una
+  fecha para revisar la segunda.

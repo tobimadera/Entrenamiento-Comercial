@@ -1,0 +1,21 @@
+# Criterios con los que se evalúa al representante al terminar la conversación.
+# Se pueden editar, agregar o quitar. Cada foco suma sus criterios a los comunes.
+comunes:
+  - nombre: Preparación y manejo de datos
+    descripcion: Usa números concretos del concesionario y del mercado en lugar de afirmaciones generales.
+  - nombre: Escucha y diagnóstico
+    descripcion: Hace preguntas, entiende la preocupación real del dueño antes de proponer y retoma lo que el dueño dijo.
+  - nombre: Manejo de objeciones
+    descripcion: Responde a cada objeción con argumentos, sin esquivarla, sin ceder de más y sin confrontar.
+  - nombre: Propuesta de valor para el dueño
+    descripcion: Presenta el pedido de la marca en términos de rentabilidad y riesgo para el negocio del dueño.
+  - nombre: Cierre y compromisos
+    descripcion: Busca un compromiso concreto con responsable y fecha, y define los próximos pasos.
+  - nombre: Relación y tono
+    descripcion: Mantiene una relación de socio de negocio; firme sin amenazar, empático sin ser complaciente.
+ventas:
+  - nombre: Dominio del negocio de ventas
+    descripcion: Maneja con soltura stock, rotación, costo financiero, mix, conversión de prospectos y participación de mercado.
+posventa:
+  - nombre: Dominio del negocio de posventa
+    descripcion: Maneja con soltura retención, absorción, capacidad de taller, repuestos y satisfacción del cliente, y los vincula con la venta de autos.

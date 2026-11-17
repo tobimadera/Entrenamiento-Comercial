@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrenador de Ventas</title>
+<style>
+  :root {
+    --fondo: #f4f5f7; --panel: #ffffff; --texto: #1c2430; --suave: #5d6878; --borde: #d9dee6;
+    --acento: #1f5fbf; --acento-texto: #ffffff; --yo: #dbe8fb; --otro: #eef0f3; --mal: #b3261e; --bien: #1b7a43;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #12161c; --panel: #1b212a; --texto: #e7ebf1; --suave: #9aa5b5; --borde: #2f3845;
+      --acento: #6aa3ff; --acento-texto: #0d1420; --yo: #24406b; --otro: #262e3a; --mal: #ff8a80; --bien: #6fd79a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 16px/1.5 system-ui, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  h2 { font-size: 1.1rem; margin: 24px 0 8px; }
+  p.sub { color: var(--suave); margin: 0 0 20px; }
+  .panel { background: var(--panel); border: 1px solid var(--borde); border-radius: 12px; padding: 16px; }
+  .opciones { display: flex; gap: 8px; flex-wrap: wrap; }
+  button { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); color: var(--texto); padding: 10px 16px; }
+  button.activo, button.principal { background: var(--acento); color: var(--acento-texto); border-color: var(--acento); }
+  button:disabled { opacity: .5; cursor: default; }
+  input, textarea { font: inherit; width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); color: var(--texto); }
+  .escenario { display: block; width: 100%; text-align: left; margin-bottom: 8px; }
+  .escenario small { display: block; color: var(--suave); margin-top: 4px; }
+  .escenario.activo small { color: inherit; opacity: .85; }
+  .etiqueta { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
+  #chat .cabecera { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+  #consigna { font-size: .9rem; color: var(--suave); margin-bottom: 12px; }
+  #mensajes { display: flex; flex-direction: column; gap: 10px; min-height: 40vh; max-height: 58vh; overflow-y: auto; padding: 4px; }
+  .burbuja { max-width: 82%; padding: 10px 14px; border-radius: 14px; white-space: pre-wrap; }
+  .burbuja.dueno { background: var(--otro); align-self: flex-start; }
+  .burbuja.yo { background: var(--yo); align-self: flex-end; }
+  .burbuja .quien { display: block; font-size: .75rem; color: var(--suave); margin-bottom: 2px; }
+  #redactar { display: flex; gap: 8px; margin-top: 12px; align-items: flex-end; }
+  #redactar textarea { resize: none; height: 72px; }
+  .error { color: var(--mal); margin-top: 8px; }
+  .puntaje { font-size: 2.4rem; font-weight: 700; }
+  .criterio { border-top: 1px solid var(--borde); padding: 10px 0; }
+  .criterio b { display: flex; justify-content: space-between; gap: 12px; }
+  .momento { border-left: 3px solid var(--acento); padding-left: 12px; margin: 12px 0; }
+  .momento q { font-style: italic; }
+  ul { margin: 4px 0; padding-left: 20px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <!-- Pantalla 0: código de acceso (solo si el servidor lo exige) -->
+  <section id="acceso" hidden>
+    <h1>Entrenador de Ventas</h1>
+    <p class="sub">Código de acceso · Código de acesso</p>
+    <form class="panel" id="formAcceso">
+      <input id="codigo" type="password" autocomplete="off">
+      <p style="margin:16px 0 0"><button class="principal">Entrar</button></p>
+      <div class="error" id="errorAcceso"></div>
+    </form>
+  </section>
+
+  <!-- Pantalla 1: elegir práctica -->
+  <section id="inicio">
+    <h1 data-t="titulo"></h1>
+    <p class="sub" data-t="subtitulo"></p>
+    <div class="panel">
+      <h2 style="margin-top:0" data-t="pais"></h2>
+      <div class="opciones" id="paises">
+        <button data-pais="ar">Argentina · Español</button>
+        <button data-pais="br">Brasil · Português</button>
+      </div>
+      <h2 data-t="foco"></h2>
+      <div class="opciones" id="focos">
+        <button data-foco="ventas" data-t="ventas"></button>
+        <button data-foco="posventa" data-t="posventa"></button>
+      </div>
+      <h2 data-t="escenario"></h2>
+      <div id="escenarios"></div>
+      <h2 data-t="tuNombre"></h2>
+      <input id="nombre" autocomplete="off">
+      <p style="margin:16px 0 0"><button class="principal" id="empezar" data-t="empezar" disabled></button></p>
+      <div class="error" id="errorInicio"></div>
+    </div>
+  </section>
+
+  <!-- Pantalla 2: conversación -->
+  <section id="chat" hidden>
+    <div class="cabecera">
+      <div><span class="etiqueta" data-t="reunionCon"></span><h1 id="dueno"></h1></div>
+      <button id="terminar" data-t="terminar"></button>
+    </div>
+    <div class="panel">
+      <div id="consigna"></div>
+      <div id="mensajes"></div>
+      <div id="redactar">
+        <textarea id="texto"></textarea>
+        <button class="principal" id="enviar" data-t="enviar"></button>
+      </div>
+      <div class="error" id="errorChat"></div>
+    </div>
+  </section>
+
+  <!-- Pantalla 3: devolución -->
+  <section id="devolucion" hidden>
+    <h1 data-t="devolucion"></h1>
+    <div class="panel" id="contenidoDevolucion"></div>
+    <p><button class="principal" id="otra" data-t="otra"></button></p>
+  </section>
+</main>
+
+<script>
+const TEXTOS = {
+  es: {
+    titulo: "Entrenador de Ventas", subtitulo: "Practicá una reunión con el dueño de un concesionario y recibí una devolución.",
+    pais: "País e idioma", foco: "Foco de entrenamiento", ventas: "Ventas", posventa: "Posventa",
+    escenario: "Escenario", tuNombre: "Tu nombre (opcional)", empezar: "Empezar la reunión",
+    reunionCon: "Reunión con", terminar: "Terminar y evaluar", enviar: "Enviar", vos: "Vos",
+    objetivo: "Tu objetivo: ", escribi: "Escribí lo que le dirías…", evaluando: "Evaluando la conversación…",
+    devolucion: "Devolución", otra: "Practicar otra vez", resultado: "Resultado", criterios: "Criterios",
+    fortalezas: "Fortalezas", mejoras: "A mejorar", momentos: "Momentos clave", dijiste: "Dijiste",
+    alternativa: "Alternativa", dificultad: "Dificultad", corta: "Conversá un poco más antes de pedir la evaluación.",
+  },
+  pt: {
+    titulo: "Treinador de Vendas", subtitulo: "Pratique uma reunião com o dono de uma concessionária e receba um feedback.",
+    pais: "País e idioma", foco: "Foco do treinamento", ventas: "Vendas", posventa: "Pós-venda",
+    escenario: "Cenário", tuNombre: "Seu nome (opcional)", empezar: "Começar a reunião",
+    reunionCon: "Reunião com", terminar: "Encerrar e avaliar", enviar: "Enviar", vos: "Você",
+    objetivo: "Seu objetivo: ", escribi: "Escreva o que você diria…", evaluando: "Avaliando a conversa…",
+    devolucion: "Feedback", otra: "Praticar de novo", resultado: "Resultado", criterios: "Critérios",
+    fortalezas: "Pontos fortes", mejoras: "A melhorar", momentos: "Momentos-chave", dijiste: "Você disse",
+    alternativa: "Alternativa", dificultad: "Dificuldade", corta: "Converse um pouco mais antes de pedir a avaliação.",
+  },
+};
+const $ = (id) => document.getElementById(id);
+const estado = { pais: "ar", foco: "ventas", escenario: null, escenarios: [], sesion: null, dueno: "", ocupado: false };
+const idioma = () => (estado.pais === "br" ? "pt" : "es");
+const t = (clave) => TEXTOS[idioma()][clave];
+
+function crear(etiqueta, clase, texto) {
+  const e = document.createElement(etiqueta);
+  if (clase) e.className = clase;
+  if (texto !== undefined) e.textContent = texto;
+  return e;
+}
+
+function pintar() {
+  document.documentElement.lang = idioma();
+  document.querySelectorAll("[data-t]").forEach((e) => (e.textContent = t(e.dataset.t)));
+  document.querySelectorAll("[data-pais]").forEach((b) => b.classList.toggle("activo", b.dataset.pais === estado.pais));
+  document.querySelectorAll("[data-foco]").forEach((b) => b.classList.toggle("activo", b.dataset.foco === estado.foco));
+  $("texto").placeholder = t("escribi");
+  const lista = $("escenarios");
+  lista.replaceChildren();
+  for (const esc of estado.escenarios.filter((e) => e.foco === estado.foco)) {
+    const b = crear("button", "escenario" + (esc.id === estado.escenario ? " activo" : ""));
+    b.append(crear("span", "", esc.titulo[idioma()]),
+             crear("small", "", `${t("dificultad")}: ${esc.dificultad} · ${esc.consigna[idioma()]}`));
+    b.onclick = () => { estado.escenario = esc.id; pintar(); };
+    lista.append(b);
+  }
+  $("empezar").disabled = !estado.escenario;
+}
+
+function mostrar(pantalla) {
+  for (const id of ["acceso", "inicio", "chat", "devolucion"]) $(id).hidden = id !== pantalla;
+}
+
+// Todas las llamadas al servidor llevan el código de acceso; si lo rechaza, se vuelve a pedir.
+let codigo = "";
+try { codigo = sessionStorage.getItem("codigo") || ""; } catch {}
+async function api(ruta, opciones = {}) {
+  opciones.headers = { ...(opciones.headers || {}), "X-Codigo": codigo };
+  const r = await fetch(ruta, opciones);
+  if (r.status === 401) { mostrar("acceso"); $("codigo").focus(); }
+  return r;
+}
+async function cargarEscenarios() {
+  const r = await api("/api/escenarios");
+  if (!r.ok) return false;
+  estado.escenarios = await r.json();
+  pintar();
+  mostrar("inicio");
+  return true;
+}
+
+function burbuja(clase, quien, texto) {
+  const b = crear("div", "burbuja " + clase);
+  const cuerpo = crear("span", "", texto);
+  b.append(crear("span", "quien", quien), cuerpo);
+  $("mensajes").append(b);
+  $("mensajes").scrollTop = $("mensajes").scrollHeight;
+  return cuerpo;
+}
+
+function ocupar(si) {
+  estado.ocupado = si;
+  $("enviar").disabled = $("terminar").disabled = si;
+}
+
+async function textoDeError(r) {
+  try { return (await r.json()).detail || r.statusText; } catch { return r.statusText; }
+}
+
+// Envía lo que dijo el representante (vacío = el dueño abre la reunión) y va mostrando la respuesta.
+async function hablar(texto) {
+  $("errorChat").textContent = "";
+  ocupar(true);
+  if (texto) burbuja("yo", t("vos"), texto);
+  const cuerpo = burbuja("dueno", estado.dueno, "…");
+  try {
+    const r = await api(`/api/sesiones/${estado.sesion}/mensaje`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texto }),
+    });
+    if (!r.ok) throw new Error(await textoDeError(r));
+    const lector = r.body.getReader(), deco = new TextDecoder();
+    let todo = "";
+    for (;;) {
+      const { done, value } = await lector.read();
+      if (done) break;
+      todo += deco.decode(value, { stream: true });
+      const corte = todo.indexOf("\n[[ERROR]] ");
+      cuerpo.textContent = corte < 0 ? todo : todo.slice(0, corte);
+      $("mensajes").scrollTop = $("mensajes").scrollHeight;
+      if (corte >= 0) throw new Error(todo.slice(corte + 11));
+    }
+  } catch (e) {
+    if (cuerpo.textContent === "…" || !cuerpo.textContent) cuerpo.parentElement.remove();
+    $("errorChat").textContent = e.message;
+  }
+  ocupar(false);
+  $("texto").focus();
+}
+
+async function empezar() {
+  $("errorInicio").textContent = "";
+  const r = await api("/api/sesiones", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ escenario_id: estado.escenario, pais: estado.pais, nombre: $("nombre").value }),
+  });
+  if (!r.ok) { $("errorInicio").textContent = await textoDeError(r); return; }
+  const datos = await r.json();
+  estado.sesion = datos.id; estado.dueno = datos.dueno;
+  $("dueno").textContent = datos.dueno;
+  const esc = estado.escenarios.find((e) => e.id === estado.escenario);
+  $("consigna").textContent = t("objetivo") + esc.consigna[idioma()];
+  $("mensajes").replaceChildren();
+  mostrar("chat");
+  hablar("");
+}
+
+function enviar() {
+  const texto = $("texto").value.trim();
+  if (!texto || estado.ocupado) return;
+  $("texto").value = "";
+  hablar(texto);
+}
+
+async function terminar() {
+  ocupar(true);
+  $("errorChat").textContent = t("evaluando");
+  const r = await api(`/api/sesiones/${estado.sesion}/evaluacion`, { method: "POST" });
+  ocupar(false);
+  if (!r.ok) { $("errorChat").textContent = r.status === 400 ? t("corta") : await textoDeError(r); return; }
+  $("errorChat").textContent = "";
+  pintarDevolucion(await r.json());
+  mostrar("devolucion");
+}
+
+function pintarDevolucion(ev) {
+  const c = $("contenidoDevolucion");
+  c.replaceChildren();
+  const lista = (titulo, items) => {
+    const ul = crear("ul");
+    items.forEach((i) => ul.append(crear("li", "", i)));
+    c.append(crear("h2", "", titulo), ul);
+  };
+  c.append(crear("div", "puntaje", `${ev.puntaje_general} / 10`), crear("h2", "", t("resultado")), crear("p", "", ev.resultado));
+  c.append(crear("h2", "", t("criterios")));
+  for (const cr of ev.criterios) {
+    const d = crear("div", "criterio"), b = crear("b");
+    b.append(crear("span", "", cr.nombre), crear("span", "", `${cr.puntaje}/10`));
+    d.append(b, crear("div", "", cr.comentario));
+    c.append(d);
+  }
+  lista(t("fortalezas"), ev.fortalezas);
+  lista(t("mejoras"), ev.mejoras);
+  c.append(crear("h2", "", t("momentos")));
+  for (const m of ev.momentos_clave) {
+    const d = crear("div", "momento");
+    const cita = crear("div"); cita.append(crear("b", "", t("dijiste") + ": "), crear("q", "", m.dijiste));
+    const alt = crear("div"); alt.append(crear("b", "", t("alternativa") + ": "), crear("span", "", m.alternativa));
+    d.append(cita, crear("div", "", m.efecto), alt);
+    c.append(d);
+  }
+}
+
+$("paises").onclick = (e) => { if (e.target.dataset.pais) { estado.pais = e.target.dataset.pais; pintar(); } };
+$("focos").onclick = (e) => { if (e.target.dataset.foco) { estado.foco = e.target.dataset.foco; estado.escenario = null; pintar(); } };
+$("empezar").onclick = empezar;
+$("enviar").onclick = enviar;
+$("terminar").onclick = terminar;
+$("otra").onclick = () => { estado.escenario = null; pintar(); mostrar("inicio"); };
+$("texto").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); enviar(); } });
+
+$("formAcceso").onsubmit = async (e) => {
+  e.preventDefault();
+  codigo = $("codigo").value.trim();
+  $("errorAcceso").textContent = "";
+  if (await cargarEscenarios()) { try { sessionStorage.setItem("codigo", codigo); } catch {} }
+  else $("errorAcceso").textContent = "Código incorrecto · Código incorreto";
+};
+
+pintar();
+cargarEscenarios();
+</script>
+</body>
+</html>

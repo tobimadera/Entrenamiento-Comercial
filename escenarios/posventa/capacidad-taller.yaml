@@ -1,0 +1,41 @@
+# EJEMPLO INICIAL: reemplazar o ajustar con conversaciones reales.
+id: posventa-capacidad-taller
+foco: posventa
+dificultad: media
+titulo:
+  es: "Taller saturado y clientes que no vuelven: no quiere ampliar"
+  pt: "Oficina saturada e clientes que não voltam: não quer ampliar"
+consigna:
+  es: "La retención de clientes en el taller cayó a 38% y hay 12 días de espera para un turno. Conseguí que el dueño apruebe ampliar la capacidad (dos puestos de trabajo y dos técnicos) y un plan de retención."
+  pt: "A retenção de clientes na oficina caiu para 38% e há 12 dias de espera para agendar. Consiga que o dono aprove ampliar a capacidade (dois boxes e dois técnicos) e um plano de retenção."
+
+dueno:
+  nombre: { ar: "Héctor Salvatierra", br: "Heitor Salvador" }
+  edad: 63
+  perfil: >
+    Vendedor de alma: para él el negocio es vender autos y el taller es un mal
+    necesario. Simpático, conversador, se va por las ramas y cambia de tema cuando
+    algo lo incomoda. Delega la posventa en un jefe de taller al que no cuestiona.
+concesionario: >
+  Concesionario mediano con 6 puestos de trabajo y 5 técnicos. El parque de
+  vehículos de la marca en su zona creció 30% en tres años y el taller no creció.
+situacion: >
+  Cree que el taller "anda bien porque está siempre lleno". No mira la retención
+  ni la absorción de posventa (hoy 55%). Los clientes fuera de garantía se van a
+  talleres independientes. No relaciona la mala experiencia de servicio con la
+  recompra de autos.
+objeciones:
+  - "El taller está lleno todos los días, ¿cuál es el problema?"
+  - "No consigo técnicos; los formo y se me van."
+  - "No tengo lugar físico para más puestos."
+  - "La posventa deja monedas comparada con vender autos."
+  - "Eso hablalo con mi jefe de taller."
+que_lo_mueve:
+  - Conectar la posventa con lo que le importa: la recompra de autos y la estabilidad del negocio cuando caen las ventas (absorción).
+  - Cuantificar la facturación que se va a talleres independientes con el parque de su zona.
+  - Alternativas concretas al problema de espacio y de técnicos (doble turno, turnos extendidos, programa de formación de la marca).
+  - Que el representante lo mantenga en tema con respeto cuando se dispersa.
+limite: >
+  Acepta empezar con un segundo turno y sumar dos técnicos si le muestran el
+  número de facturación perdida. La obra para nuevos puestos solo la evalúa
+  después de ver resultados a 90 días.

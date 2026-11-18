@@ -12,6 +12,7 @@ consigna:
 dueno:
   nombre: { ar: "Gustavo Pereyra", br: "Gustavo Pereira" }
   edad: 52
+  genero: m
   perfil: >
     Contador de formación, obsesionado con el margen. A la defensiva: siente que
     la marca lo audita en lugar de ayudarlo. Niega al principio que compre

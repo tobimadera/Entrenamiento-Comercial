@@ -1,0 +1,42 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: V04
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: ventas
+dificultad: media
+titulo:
+  es: Toyota Usados Certificados
+  pt: Toyota Seminovos Certificados
+consigna:
+  es: Certificar 40 usados mensuales y publicar inventario digital.
+  pt: Certificar 40 seminovos por mês e publicar o estoque digital.
+contexto_visible:
+  es: Perfil innovador. Concesionario grande (5 locales), al 115% de su objetivo; caja sólida.
+  pt: Perfil inovador. Concessionária grande (5 lojas), em 115% da meta; caixa sólido.
+dueno:
+  nombre:
+    ar: Federico Lanús
+    br: Frederico Lacerda
+  edad: 44
+  genero: m
+  perfil: 'Innovador: le gusta probar cosas nuevas si ve el negocio, pero se aburre rápido con discursos
+    y quiere ir al punto.'
+concesionario: Perfil innovador. Concesionario grande (5 locales), al 115% de su objetivo; caja sólida.
+situacion: La reunión es sobre Toyota Usados Certificados.
+objecion_inicial: El margen no cubre reacondicionamiento.
+interes_oculto: Busca preservar rentabilidad por unidad.
+objeciones:
+- El margen no cubre reacondicionamiento.
+que_lo_mueve:
+- Modelo de margen neto y rotación; segmentar Oro/Plata según elegibilidad.
+limite: 'Máximo acuerdo: 25 unidades piloto; 40 si margen positivo.'
+no_negociable: No certifica unidades que no cumplen requisitos.
+referencias:
+  ar:
+  - nombre: Ginza
+    detalle: programa de usados certificados; líder histórico 2019–2020
+    fuente: https://www.ginzasa.com.ar/conozcanos/nuestra-empresa
+  br:
+  - nombre: Osaka (MG)
+    detalle: seminovos certificados
+    fuente: https://osakaveiculos.com.br/

@@ -1,0 +1,42 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: V01
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: ventas
+dificultad: alta
+titulo:
+  es: 'Hilux / SW4: aumentar mix'
+  pt: 'Hilux / SW4: aumentar o mix'
+consigna:
+  es: Elevar mix de versiones de menor rotación de 10% a 20% en 60 días.
+  pt: Elevar o mix de versões de menor giro de 10% para 20% em 60 dias.
+contexto_visible:
+  es: Perfil dominante. Concesionario grande (4 locales), al 110% de su objetivo; caja sólida.
+  pt: Perfil dominante. Concessionária grande (4 lojas), em 110% da meta; caixa sólido.
+dueno:
+  nombre:
+    ar: Ricardo Ibarra
+    br: Ricardo Barbosa
+  edad: 61
+  genero: m
+  perfil: 'Dominante: le gusta tener la última palabra, habla firme y no tolera que le impongan nada.
+    Respeta a quien le discute con datos.'
+concesionario: Perfil dominante. Concesionario grande (4 locales), al 110% de su objetivo; caja sólida.
+situacion: 'La reunión es sobre Hilux / SW4: aumentar mix.'
+objecion_inicial: No me impongan stock; vendo lo que pide mi zona.
+interes_oculto: Teme inmovilizar capital y perder autonomía.
+objeciones:
+- No me impongan stock; vendo lo que pide mi zona.
+que_lo_mueve:
+- Datos por versión y demanda local; piloto con revisión quincenal.
+limite: 'Máximo acuerdo: Acepta 15% inicial; llega a 20% si rotación ≤45 días.'
+no_negociable: No acepta compra obligatoria sin revisión.
+referencias:
+  ar:
+  - nombre: Ginza (Rosario / Monte Maíz)
+    detalle: gama Hilux y SW4
+    fuente: https://ginzasa.com.ar/
+  br:
+  - nombre: Toyopar (PR)
+    detalle: comercializa Hilux y SW4
+    fuente: https://www.toyopar.com.br/novo-ofertas

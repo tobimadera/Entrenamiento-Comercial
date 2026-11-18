@@ -1,0 +1,42 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: V03
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: ventas
+dificultad: alta
+titulo:
+  es: Toyota Plan
+  pt: Toyota Plan (consórcio)
+consigna:
+  es: Subir suscripciones de 10 a 18 por mes.
+  pt: Aumentar as adesões de 10 para 18 por mês.
+contexto_visible:
+  es: Perfil desconfiado. Concesionario pequeño (1 local), al 75% de su objetivo; liquidez baja.
+  pt: Perfil desconfiado. Concessionária pequena (1 loja), em 75% da meta; liquidez baixa.
+dueno:
+  nombre:
+    ar: Osvaldo Quiroga
+    br: Osvaldo Queiroz
+  edad: 64
+  genero: m
+  perfil: 'Desconfiado: le costó mucho armar su clientela y sospecha de cada propuesta de la marca; necesita
+    garantías antes de moverse.'
+concesionario: Perfil desconfiado. Concesionario pequeño (1 local), al 75% de su objetivo; liquidez baja.
+situacion: La reunión es sobre Toyota Plan.
+objecion_inicial: Los reclamos por cuotas me destruyen la reputación.
+interes_oculto: Teme cancelaciones y reclamos por promesas comerciales.
+objeciones:
+- Los reclamos por cuotas me destruyen la reputación.
+que_lo_mueve:
+- Guion transparente, capacitación y seguimiento de bajas.
+limite: 'Máximo acuerdo: 14 suscripciones por 60 días; 18 si baja cancelación.'
+no_negociable: No acepta prometer entregas no garantizadas.
+referencias:
+  ar:
+  - nombre: Uzcudun
+    detalle: Toyota Plan y red de tres sucursales
+    fuente: https://www.uzcudun.com.ar/licitacion/
+  br:
+  - nombre: Weiand
+    detalle: Consórcio (equivalente local)
+    fuente: https://www.weiandtoyota.com.br/

@@ -1,0 +1,41 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: P03
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: posventa
+dificultad: alta
+titulo:
+  es: Repuestos originales
+  pt: Peças genuínas
+consigna:
+  es: Mejorar disponibilidad de piezas críticas a 95%.
+  pt: Melhorar a disponibilidade de peças críticas para 95%.
+contexto_visible:
+  es: Negociador duro. Concesionario mediano, al 78% de su objetivo de repuestos; caja ajustada.
+  pt: Negociador duro. Concessionária média, em 78% da meta de peças; caixa apertado.
+dueno:
+  nombre:
+    ar: Néstor Vidal
+    br: Nestor Vidal
+  edad: 55
+  genero: m
+  perfil: 'Negociador duro: convierte todo en una negociación y no da nada sin recibir algo a cambio.'
+concesionario: Negociador duro. Concesionario mediano, al 78% de su objetivo de repuestos; caja ajustada.
+situacion: La reunión es sobre Repuestos originales.
+objecion_inicial: Me quieren convertir en depósito de repuestos.
+interes_oculto: Teme obsolescencia y capital inmovilizado.
+objeciones:
+- Me quieren convertir en depósito de repuestos.
+que_lo_mueve:
+- ABC de demanda, stock mínimo y revisión mensual.
+limite: 'Máximo acuerdo: 90% inicial; 95% si rotación y abastecimiento acompañan.'
+no_negociable: No acepta stock indiscriminado.
+referencias:
+  ar:
+  - nombre: Autosiglo Mar del Plata
+    detalle: premio histórico de habilidad en repuestos, 2022
+    fuente: https://campeones.com.ar/los-mejores-asesores-de-servicio-y-tecnicos-de-toyota/
+  br:
+  - nombre: Toyopar
+    detalle: piezas y tienda virtual Toyoparts
+    fuente: https://www.toyopar.com.br/

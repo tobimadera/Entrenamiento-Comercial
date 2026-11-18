@@ -14,6 +14,7 @@ consigna:
 dueno:
   nombre: { ar: "Roberto Giménez", br: "Roberto Guimarães" }
   edad: 58
+  genero: m
   perfil: >
     Segunda generación al frente del negocio familiar. Conservador con la caja,
     directo, algo irónico. Respeta a quien conoce sus números y pierde la paciencia

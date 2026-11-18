@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel del gestor</title>
+<style>
+  :root {
+    --fondo: #f4f5f7; --panel: #ffffff; --texto: #1c2430; --suave: #5d6878; --borde: #d9dee6;
+    --acento: #1f5fbf; --acento-texto: #ffffff; --mal: #b3261e; --bien: #006300;
+    --serie: #2a78d6; --grilla: #e1e0d9; --eje: #c3c2b7; --apagado: #898781; --otro: #eef0f3;
+    --div-bajo: #e34948; --div-medio: #f0efec; --div-alto: #2a78d6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #12161c; --panel: #1b212a; --texto: #e7ebf1; --suave: #9aa5b5; --borde: #2f3845;
+      --acento: #6aa3ff; --acento-texto: #0d1420; --mal: #ff8a80; --bien: #0ca30c;
+      --serie: #3987e5; --grilla: #2c2c2a; --eje: #383835; --apagado: #898781; --otro: #262e3a;
+      --div-bajo: #e66767; --div-medio: #383835; --div-alto: #3987e5;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 15px/1.5 system-ui, "Segoe UI", sans-serif; }
+  main { max-width: 1040px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  h2 { font-size: 1.1rem; margin: 0 0 12px; }
+  h3 { font-size: 1rem; margin: 20px 0 8px; }
+  p.sub { color: var(--suave); margin: 0 0 20px; }
+  .panel { background: var(--panel); border: 1px solid var(--borde); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+  button, input, select { font: inherit; color: var(--texto); }
+  button { cursor: pointer; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); padding: 6px 12px; }
+  button.principal { background: var(--acento); color: var(--acento-texto); border-color: var(--acento); }
+  button.enlace { border: none; background: none; padding: 0; color: var(--acento); text-align: left; font-weight: 600; }
+  input, select { padding: 8px 10px; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); }
+  .error { color: var(--mal); margin-top: 8px; }
+  .suave { color: var(--suave); }
+  .fichas { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .ficha { background: var(--panel); border: 1px solid var(--borde); border-radius: 12px; padding: 14px 16px; }
+  .ficha .valor { font-size: 1.8rem; font-weight: 700; line-height: 1.2; }
+  .ficha .rotulo { color: var(--suave); font-size: .9rem; }
+  .tabla { width: 100%; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--borde); vertical-align: top; }
+  th { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--suave); font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tr.elegido td { background: var(--otro); }
+  .sube { color: var(--bien); font-weight: 600; }
+  .baja { color: var(--mal); font-weight: 600; }
+  .codigo { font-family: ui-monospace, Consolas, monospace; font-size: 1rem; letter-spacing: .06em; }
+  .apagado { opacity: .55; }
+  .fila-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .acciones { display: flex; gap: 6px; flex-wrap: wrap; }
+  .grafico { position: relative; }
+  .grafico svg { display: block; width: 100%; height: auto; }
+  .tooltip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--borde); border-radius: 8px;
+             padding: 6px 10px; font-size: .85rem; box-shadow: 0 2px 8px rgba(0,0,0,.12); white-space: nowrap; }
+  .conversacion { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow-y: auto; padding: 4px; }
+  .burbuja { max-width: 85%; padding: 8px 12px; border-radius: 12px; white-space: pre-wrap; background: var(--otro); }
+  .burbuja.representante { align-self: flex-end; background: color-mix(in srgb, var(--serie) 18%, var(--panel)); }
+  .burbuja small { display: block; color: var(--suave); font-size: .75rem; }
+  .cabecera { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  table.mapa th { text-transform: none; letter-spacing: 0; font-size: .78rem; vertical-align: bottom; min-width: 76px; }
+  table.mapa td.celda { text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; border: 2px solid var(--panel); border-radius: 6px; }
+  table.mapa tr.equipo td { border-top: 2px solid var(--borde); }
+  .leyenda { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: .85rem; color: var(--suave); margin-bottom: 10px; }
+  .leyenda span.muestra { display: inline-block; width: 28px; height: 14px; border-radius: 3px; }
+  .mejoras-lista { margin: 0; padding-left: 20px; }
+  .tema { border-left: 3px solid var(--div-bajo); padding: 2px 0 2px 12px; margin: 12px 0; }
+  .tema q { font-style: italic; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <section id="acceso" hidden>
+    <h1>Panel del gestor</h1>
+    <p class="sub">Ingresá el código de gestor.</p>
+    <form class="panel" id="formAcceso">
+      <input id="codigo" type="password" autocomplete="off">
+      <button class="principal">Entrar</button>
+      <div class="error" id="errorAcceso"></div>
+    </form>
+  </section>
+
+  <section id="panel" hidden>
+    <h1>Panel del gestor</h1>
+    <p class="sub">Cuántos entrenamientos hace cada consultor y cómo evoluciona su puntaje.</p>
+    <div class="fichas" id="fichas"></div>
+
+    <div class="panel">
+      <h2>Consultores</h2>
+      <p class="suave" style="margin-top:-6px">Progreso: promedio de las últimas prácticas evaluadas menos el de las primeras (hasta tres de cada lado). Tocá un nombre para ver su detalle.</p>
+      <div class="tabla"><table id="tablaConsultores"></table></div>
+    </div>
+
+    <div class="panel">
+      <h2>Mapa de brechas del equipo</h2>
+      <p id="mapaTitular"></p>
+      <div class="leyenda" id="mapaLeyenda"></div>
+      <div class="tabla"><table class="mapa" id="tablaMapa"></table></div>
+      <p class="suave" id="mapaNota"></p>
+    </div>
+
+    <div class="panel" id="detalle" hidden>
+      <div class="cabecera"><h2 id="detalleNombre"></h2><span class="suave" id="detalleDatos"></span></div>
+      <h3>Principales puntos de mejora</h3>
+      <div id="criteriosFlojos"></div>
+      <div id="mejorasIA"></div>
+      <h3>Puntaje de cada entrenamiento evaluado</h3>
+      <div class="grafico" id="grafico"></div>
+      <div id="bloqueCriterios"></div>
+      <h3>Entrenamientos</h3>
+      <div class="tabla"><table id="tablaSesiones"></table></div>
+    </div>
+
+    <div class="panel" id="practica" hidden>
+      <div class="cabecera"><h2 id="practicaTitulo"></h2><button id="cerrarPractica">Cerrar</button></div>
+      <p class="suave" id="practicaDatos"></p>
+      <div class="conversacion" id="practicaConversacion"></div>
+      <div id="practicaDevolucion"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Códigos de acceso</h2>
+      <p class="suave" style="margin-top:-6px">Cada consultor entra al entrenador con su código personal; así sus prácticas quedan a su nombre. Si alguien pierde el suyo o deja el equipo, generale uno nuevo o desactivalo.</p>
+      <form class="fila-form" id="formAlta">
+        <input id="altaNombre" placeholder="Nombre y apellido" autocomplete="off">
+        <select id="altaPais"><option value="ar">Argentina</option><option value="br">Brasil</option></select>
+        <button class="principal">Crear código</button>
+        <span class="error" id="errorAlta"></span>
+      </form>
+      <div class="tabla"><table id="tablaCodigos"></table></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const PAISES = { ar: "Argentina", br: "Brasil" };
+const FOCOS = { ventas: "Ventas", posventa: "Posventa", especiales: "Ventas especiales" };
+const datos = { resumen: null, consultores: [], elegido: null };
+
+function crear(etiqueta, clase, texto) {
+  const e = document.createElement(etiqueta);
+  if (clase) e.className = clase;
+  if (texto !== undefined && texto !== null) e.textContent = texto;
+  return e;
+}
+const fecha = (iso) => iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : "—";
+const fechaHora = (iso) => iso ? `${fecha(iso)} ${iso.slice(11, 16)}` : "—";
+const decimal = (n) => n === null || n === undefined ? "—" : n.toLocaleString("es-AR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+// ---------------------------------------------------------------- acceso
+let codigo = "";
+try { codigo = sessionStorage.getItem("codigoGestor") || ""; } catch {}
+async function api(ruta, opciones = {}) {
+  opciones.headers = { ...(opciones.headers || {}), "X-Codigo": codigo };
+  const r = await fetch(ruta, opciones);
+  if (r.status === 401 || r.status === 403) {
+    $("panel").hidden = true; $("acceso").hidden = false;
+    $("errorAcceso").textContent = codigo ? "Ese código no es el de gestor." : "";
+    throw new Error("sin acceso");
+  }
+  if (!r.ok) {
+    let detalle = r.statusText;
+    try { detalle = (await r.json()).detail || detalle; } catch {}
+    throw new Error(detalle);
+  }
+  return r.json();
+}
+
+async function cargarTodo() {
+  [datos.resumen, datos.consultores] = await Promise.all([api("/api/gestor/resumen"), api("/api/gestor/consultores")]);
+  $("acceso").hidden = true; $("panel").hidden = false;
+  pintarFichas(); pintarConsultores(); pintarMapa(); pintarCodigos();
+  if (datos.elegido) pintarDetalle(datos.elegido);
+}
+
+// ---------------------------------------------------------------- resumen general
+function pintarFichas() {
+  const { consultores, sesiones } = datos.resumen;
+  const puntajes = sesiones.map((s) => s.puntaje).filter((p) => p !== null);
+  const conCodigo = consultores.filter((c) => c.con_codigo && c.activo);
+  const fichas = [
+    [sesiones.length, "entrenamientos en total"],
+    [`${conCodigo.filter((c) => c.entrenamientos > 0).length} de ${conCodigo.length}`, "consultores activos ya practicaron"],
+    [puntajes.length ? decimal(puntajes.reduce((a, b) => a + b, 0) / puntajes.length) : "—", "puntaje promedio (de 10)"],
+  ];
+  $("fichas").replaceChildren(...fichas.map(([valor, rotulo]) => {
+    const f = crear("div", "ficha");
+    f.append(crear("div", "valor", valor), crear("div", "rotulo", rotulo));
+    return f;
+  }));
+}
+
+function celdaProgreso(valor) {
+  const td = crear("td", "num");
+  if (valor === null) { td.textContent = "—"; return td; }
+  if (Math.abs(valor) < 0.5) { td.append(crear("span", "", `= ${decimal(valor)} estable`)); return td; }
+  const sube = valor > 0;
+  td.append(crear("span", sube ? "sube" : "baja", `${sube ? "▲ +" : "▼ "}${decimal(valor)} ${sube ? "mejora" : "baja"}`));
+  return td;
+}
+
+function pintarConsultores() {
+  const tabla = $("tablaConsultores");
+  const cab = crear("tr");
+  [["Consultor"], ["País"], ["Entrenamientos", "num"], ["Evaluados", "num"], ["Último"], ["Promedio", "num"], ["Progreso", "num"]]
+    .forEach(([t, c]) => cab.append(crear("th", c || "", t)));
+  const filas = datos.resumen.consultores.map((c) => {
+    const tr = crear("tr", (c.clave === datos.elegido ? "elegido " : "") + (c.activo ? "" : "apagado"));
+    const nombre = crear("td");
+    const boton = crear("button", "enlace", c.nombre);
+    boton.onclick = () => { datos.elegido = c.clave; pintarConsultores(); pintarDetalle(c.clave); $("detalle").scrollIntoView({ behavior: "smooth" }); };
+    nombre.append(boton);
+    if (!c.con_codigo) nombre.append(crear("div", "suave", "sin código personal"));
+    if (!c.activo) nombre.append(crear("div", "suave", "desactivado"));
+    tr.append(nombre, crear("td", "", PAISES[c.pais] || "—"), crear("td", "num", c.entrenamientos), crear("td", "num", c.evaluados),
+              crear("td", "", fecha(c.ultimo)), crear("td", "num", decimal(c.promedio)), celdaProgreso(c.progreso));
+    return tr;
+  });
+  if (!filas.length) {
+    const tr = crear("tr"), td = crear("td", "suave", "Todavía no hay consultores ni entrenamientos. Creá los códigos de acceso abajo.");
+    td.colSpan = 7; tr.append(td); filas.push(tr);
+  }
+  tabla.replaceChildren(cab, ...filas);
+}
+
+// ---------------------------------------------------------------- detalle de un consultor
+function pintarDetalle(clave) {
+  const c = datos.resumen.consultores.find((x) => x.clave === clave);
+  if (!c) { $("detalle").hidden = true; return; }
+  const propias = datos.resumen.sesiones.filter((s) => s.clave === clave);
+  const evaluadas = propias.filter((s) => s.puntaje !== null);
+  $("detalle").hidden = false;
+  $("detalleNombre").textContent = c.nombre;
+  $("detalleDatos").textContent = `${PAISES[c.pais] || ""} · ${c.entrenamientos} entrenamientos · ${c.evaluados} evaluados`;
+  pintarFlojos(clave);
+  pintarMejorasIA(clave);
+  pintarGrafico(evaluadas);
+  pintarCriterios(evaluadas);
+  pintarSesiones(propias);
+}
+
+// ---------------------------------------------------------------- brechas
+// Cada consultor se mide con sus últimas prácticas evaluadas: muestra cómo está hoy, no su historia.
+const RECIENTES = 5;
+function nivelActual(clave) {
+  const recientes = datos.resumen.sesiones.filter((s) => s.clave === clave && s.puntaje !== null).slice(-RECIENTES);
+  const nivel = {};
+  for (const c of datos.resumen.criterios) {
+    const v = recientes.map((s) => s.criterios[c]).filter((x) => typeof x === "number");
+    nivel[c] = v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+  }
+  return { recientes: recientes.length, nivel };
+}
+
+// Escala divergente: rojo por debajo del objetivo, azul por encima, gris en el objetivo.
+// Se satura a 3 puntos de distancia.
+function colorCelda(v) {
+  const dif = v - datos.resumen.objetivo, t = Math.min(1, Math.abs(dif) / 3);
+  const extremo = dif < 0 ? "var(--div-bajo)" : "var(--div-alto)";
+  return { fondo: `color-mix(in oklab, ${extremo} ${Math.round(t * 100)}%, var(--div-medio))`, texto: t > 0.6 ? "#ffffff" : "var(--texto)" };
+}
+
+function pintarMapa() {
+  const { criterios, objetivo } = datos.resumen;
+  const filas = datos.resumen.consultores.map((c) => ({ c, ...nivelActual(c.clave) })).filter((f) => f.recientes > 0);
+  const tabla = $("tablaMapa");
+  if (!filas.length) {
+    tabla.replaceChildren();
+    $("mapaTitular").textContent = "Todavía no hay prácticas con devolución.";
+    $("mapaLeyenda").replaceChildren(); $("mapaNota").textContent = "";
+    return;
+  }
+  const equipo = {};
+  for (const cr of criterios) {
+    const v = filas.map((f) => f.nivel[cr]).filter((x) => x !== null);
+    equipo[cr] = v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+  }
+  // La mayor brecha se busca entre criterios medidos en al menos la mitad del equipo: un criterio
+  // nuevo, con una sola práctica, no debería encabezar el mapa.
+  const medidos = (cr) => filas.filter((f) => f.nivel[cr] !== null).length;
+  const conDato = criterios.filter((cr) => equipo[cr] !== null);
+  const representativos = conDato.filter((cr) => medidos(cr) >= Math.ceil(filas.length / 2));
+  const candidatos = representativos.length ? representativos : conDato;
+  const peor = candidatos.reduce((a, b) => (equipo[b] < equipo[a] ? b : a), candidatos[0]);
+  const debajo = filas.filter((f) => f.nivel[peor] !== null && f.nivel[peor] < objetivo).length;
+  const conPeor = filas.filter((f) => f.nivel[peor] !== null).length;
+  $("mapaTitular").replaceChildren(
+    document.createTextNode("La mayor brecha del equipo es "), crear("strong", "", peor),
+    document.createTextNode(`: promedio ${decimal(equipo[peor])} contra un objetivo de ${decimal(objetivo)}. ${debajo} de ${conPeor} consultores están por debajo.`));
+
+  const muestra = (v, texto) => {
+    const s = crear("span", "muestra"); s.style.background = colorCelda(v).fondo;
+    return [s, crear("span", "", texto)];
+  };
+  $("mapaLeyenda").replaceChildren(
+    ...muestra(objetivo - 3, `3 o más bajo el objetivo`), ...muestra(objetivo - 1.5, "algo bajo"),
+    ...muestra(objetivo, `en el objetivo (${decimal(objetivo)})`), ...muestra(objetivo + 1.5, "algo sobre"),
+    ...muestra(objetivo + 3, "3 o más sobre el objetivo"));
+
+  const cab = crear("tr");
+  cab.append(crear("th", "", "Consultor"));
+  criterios.forEach((cr) => cab.append(crear("th", "", cr)));
+  const fila = (nombre, nivel, clase, clave) => {
+    const tr = crear("tr", clase || ""), td = crear("td");
+    if (clave) {
+      const b = crear("button", "enlace", nombre);
+      b.onclick = () => { datos.elegido = clave; pintarConsultores(); pintarDetalle(clave); $("detalle").scrollIntoView({ behavior: "smooth" }); };
+      td.append(b);
+    } else td.append(crear("strong", "", nombre));
+    tr.append(td);
+    for (const cr of criterios) {
+      const v = nivel[cr], celda = crear("td", "celda", v === null ? "—" : decimal(v));
+      if (v !== null) {
+        const { fondo, texto } = colorCelda(v);
+        celda.style.background = fondo; celda.style.color = texto;
+        celda.title = `${nombre} · ${cr}: ${decimal(v)} (${v >= objetivo ? "+" : ""}${decimal(v - objetivo)} contra el objetivo)`;
+      }
+      tr.append(celda);
+    }
+    return tr;
+  };
+  tabla.replaceChildren(cab, ...filas.map((f) => fila(f.c.nombre, f.nivel, "", f.c.clave)), fila("Equipo", equipo, "equipo"));
+  $("mapaNota").textContent = `Cada celda es el promedio de las últimas ${RECIENTES} prácticas evaluadas de cada consultor. «—»: todavía no practicó ese foco, o sus prácticas son anteriores a que se agregara el criterio.`;
+}
+
+function pintarFlojos(clave) {
+  const { nivel, recientes } = nivelActual(clave);
+  const { objetivo } = datos.resumen;
+  const caja = $("criteriosFlojos");
+  caja.replaceChildren();
+  if (!recientes) { caja.append(crear("p", "suave", "Todavía no tiene prácticas con devolución.")); return; }
+  const flojos = Object.entries(nivel).filter(([, v]) => v !== null && v < objetivo).sort((a, b) => a[1] - b[1]).slice(0, 3);
+  if (!flojos.length) {
+    caja.append(crear("p", "", `En sus últimas ${recientes} prácticas está en el objetivo o por encima en todos los criterios.`));
+    return;
+  }
+  caja.append(crear("p", "suave", `Criterios más bajos en sus últimas ${recientes} prácticas evaluadas:`));
+  const ul = crear("ul", "mejoras-lista");
+  for (const [cr, v] of flojos) {
+    const li = crear("li");
+    li.append(crear("strong", "", cr), document.createTextNode(`: ${decimal(v)} (${decimal(v - objetivo)} contra el objetivo)`));
+    ul.append(li);
+  }
+  caja.append(ul);
+}
+
+async function pintarMejorasIA(clave, generar = false) {
+  const caja = $("mejorasIA");
+  caja.replaceChildren(crear("p", "suave", generar ? "Leyendo sus devoluciones para encontrar lo que se repite…" : "Cargando…"));
+  let r;
+  try {
+    r = await api(`/api/gestor/mejoras?clave=${encodeURIComponent(clave)}`, generar ? { method: "POST" } : {});
+  } catch (e) {
+    if (datos.elegido === clave && e.message !== "sin acceso") caja.replaceChildren(crear("p", "error", e.message));
+    return;
+  }
+  if (datos.elegido !== clave) return;  // el gestor ya eligió a otro consultor
+  caja.replaceChildren();
+  const boton = (texto) => {
+    const b = crear("button", "principal", texto);
+    b.onclick = () => pintarMejorasIA(clave, true);
+    return b;
+  };
+  const res = r.resumen;
+  if (!res) {
+    if (!r.practicas_disponibles) return;
+    caja.append(crear("p", "suave", `Para ver qué puntos de mejora se repiten en sus devoluciones, la IA lee sus últimas ${r.practicas_disponibles} prácticas evaluadas. Tarda unos segundos.`),
+                boton("Resumir puntos de mejora con IA"));
+    return;
+  }
+  caja.append(crear("p", "", res.sintesis));
+  for (const t of res.temas) {
+    const d = crear("div", "tema");
+    const titulo = crear("div");
+    titulo.append(crear("strong", "", t.tema), crear("span", "suave", ` · en ${t.en_cuantas} de ${res.basado_en.length} prácticas`));
+    d.append(titulo, crear("div", "", t.detalle));
+    if (t.ejemplo) { const e = crear("div", "suave"); e.append(document.createTextNode("Dijo: "), crear("q", "", t.ejemplo)); d.append(e); }
+    const p = crear("div"); p.append(crear("strong", "", "Para practicar: "), document.createTextNode(t.que_practicar));
+    d.append(p);
+    caja.append(d);
+  }
+  const pie = crear("p", "suave", `Resumido por IA el ${fecha(res.fecha)} a partir de ${res.basado_en.length} prácticas evaluadas. `);
+  caja.append(pie);
+  if (res.desactualizado) {
+    pie.append(document.createTextNode("Hay prácticas nuevas desde entonces. "));
+    caja.append(boton("Actualizar el resumen"));
+  }
+}
+
+const NS = "http://www.w3.org/2000/svg";
+function svg(etiqueta, atributos, texto) {
+  const e = document.createElementNS(NS, etiqueta);
+  for (const [k, v] of Object.entries(atributos)) e.setAttribute(k, v);
+  if (texto !== undefined) e.textContent = texto;
+  return e;
+}
+
+function pintarGrafico(evaluadas) {
+  const caja = $("grafico");
+  caja.replaceChildren();
+  if (!evaluadas.length) { caja.append(crear("p", "suave", "Todavía no tiene entrenamientos evaluados.")); return; }
+  const W = 760, H = 240, izq = 40, der = 56, arriba = 12, abajo = 36;
+  const ancho = W - izq - der, alto = H - arriba - abajo;
+  const n = evaluadas.length;
+  const X = (i) => izq + (n === 1 ? ancho / 2 : (i / (n - 1)) * ancho);
+  const Y = (v) => arriba + alto - (v / 10) * alto;
+  const g = svg("svg", { viewBox: `0 0 ${W} ${H}`, role: "img",
+    "aria-label": `Puntaje de ${n} entrenamientos evaluados, del ${evaluadas[0].puntaje} al ${evaluadas[n - 1].puntaje}` });
+  for (const v of [0, 2, 4, 6, 8, 10]) {
+    g.append(svg("line", { x1: izq, x2: W - der, y1: Y(v), y2: Y(v), stroke: v === 0 ? "var(--eje)" : "var(--grilla)", "stroke-width": 1 }));
+    g.append(svg("text", { x: izq - 8, y: Y(v) + 4, "text-anchor": "end", "font-size": 12, fill: "var(--apagado)" }, v));
+  }
+  const paso = Math.max(1, Math.ceil(n / 12));
+  evaluadas.forEach((s, i) => {
+    if (i % paso === 0 || i === n - 1)
+      g.append(svg("text", { x: X(i), y: H - abajo + 18, "text-anchor": "middle", "font-size": 12, fill: "var(--apagado)" }, i + 1));
+  });
+  g.append(svg("text", { x: izq + ancho / 2, y: H - 4, "text-anchor": "middle", "font-size": 12, fill: "var(--apagado)" }, "Entrenamiento evaluado n.º"));
+  if (n > 1) {
+    g.append(svg("polyline", { points: evaluadas.map((s, i) => `${X(i)},${Y(s.puntaje)}`).join(" "),
+      fill: "none", stroke: "var(--serie)", "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+  }
+  evaluadas.forEach((s, i) => g.append(svg("circle", { cx: X(i), cy: Y(s.puntaje), r: 4, fill: "var(--serie)", stroke: "var(--panel)", "stroke-width": 2 })));
+  const ultimo = evaluadas[n - 1];
+  g.append(svg("text", { x: X(n - 1) + 10, y: Y(ultimo.puntaje) + 4, "font-size": 13, "font-weight": 600, fill: "var(--texto)" }, `${ultimo.puntaje}/10`));
+
+  // Hover: una franja invisible por entrenamiento, más ancha que el punto.
+  const tip = crear("div", "tooltip"); tip.hidden = true;
+  const guia = svg("line", { y1: arriba, y2: arriba + alto, stroke: "var(--eje)", "stroke-width": 1, visibility: "hidden" });
+  g.append(guia);
+  const franja = n === 1 ? ancho : ancho / (n - 1);
+  evaluadas.forEach((s, i) => {
+    const zona = svg("rect", { x: X(i) - franja / 2, y: arriba, width: franja, height: alto, fill: "transparent" });
+    zona.addEventListener("mouseenter", () => {
+      guia.setAttribute("x1", X(i)); guia.setAttribute("x2", X(i)); guia.setAttribute("visibility", "visible");
+      tip.replaceChildren(crear("strong", "", `${s.puntaje}/10`), crear("div", "", `${fecha(s.fecha)} · ${FOCOS[s.foco] || ""}`), crear("div", "suave", s.escenario));
+      tip.hidden = false;
+      const escala = caja.clientWidth / W;
+      tip.style.left = `${Math.min(X(i) * escala + 12, caja.clientWidth - tip.offsetWidth - 4)}px`;
+      tip.style.top = `${Math.max(Y(s.puntaje) * escala - 48, 0)}px`;
+    });
+    zona.addEventListener("mouseleave", () => { tip.hidden = true; guia.setAttribute("visibility", "hidden"); });
+    zona.addEventListener("click", () => verPractica(s.id));
+    zona.style.cursor = "pointer";
+    g.append(zona);
+  });
+  caja.append(g, tip);
+}
+
+function pintarCriterios(evaluadas) {
+  const bloque = $("bloqueCriterios");
+  bloque.replaceChildren();
+  if (evaluadas.length < 2) return;
+  const k = Math.min(3, Math.floor(evaluadas.length / 2));
+  const nombres = [];
+  evaluadas.forEach((s) => Object.keys(s.criterios).forEach((c) => { if (!nombres.includes(c)) nombres.push(c); }));
+  const promedio = (lista, c) => {
+    const v = lista.map((s) => s.criterios[c]).filter((x) => typeof x === "number");
+    return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+  };
+  bloque.append(crear("h3", "", `Por criterio: primeros ${k} contra últimos ${k} evaluados`));
+  const tabla = crear("table"), cab = crear("tr");
+  [["Criterio"], [`Primeros ${k}`, "num"], [`Últimos ${k}`, "num"], ["Cambio", "num"]].forEach(([t, c]) => cab.append(crear("th", c || "", t)));
+  tabla.append(cab);
+  for (const c of nombres) {
+    const antes = promedio(evaluadas.slice(0, k), c), ahora = promedio(evaluadas.slice(-k), c);
+    const tr = crear("tr");
+    tr.append(crear("td", "", c), crear("td", "num", decimal(antes)), crear("td", "num", decimal(ahora)),
+              celdaProgreso(antes === null || ahora === null ? null : Math.round((ahora - antes) * 10) / 10));
+    tabla.append(tr);
+  }
+  const envoltura = crear("div", "tabla"); envoltura.append(tabla);
+  bloque.append(envoltura);
+}
+
+function pintarSesiones(propias) {
+  const tabla = $("tablaSesiones"), cab = crear("tr");
+  [["Fecha"], ["Escenario"], ["Foco"], ["Modo"], ["Intervenciones", "num"], ["Puntaje", "num"], [""]].forEach(([t, c]) => cab.append(crear("th", c || "", t)));
+  const filas = [...propias].reverse().map((s) => {
+    const tr = crear("tr"), ver = crear("td"), boton = crear("button", "", "Ver");
+    boton.onclick = () => verPractica(s.id);
+    ver.append(boton);
+    tr.append(crear("td", "", fechaHora(s.fecha)), crear("td", "", s.referencia ? `${s.escenario} · ${s.referencia}` : s.escenario), crear("td", "", FOCOS[s.foco] || ""),
+              crear("td", "", s.por_voz ? "Voz" : "Texto"), crear("td", "num", s.turnos),
+              crear("td", "num", s.puntaje === null ? "sin evaluar" : `${s.puntaje}/10`), ver);
+    return tr;
+  });
+  tabla.replaceChildren(cab, ...filas);
+}
+
+// ---------------------------------------------------------------- una práctica
+async function verPractica(id) {
+  const p = await api(`/api/gestor/sesiones/${id}`);
+  $("practica").hidden = false;
+  $("practicaTitulo").textContent = `${p.representante} con ${p.dueno}`;
+  $("practicaDatos").textContent = `${fechaHora(p.fecha)} · ${p.escenario}${p.referencia ? ` (imitando a ${p.referencia})` : ""} · ${PAISES[p.pais] || ""} · ${p.por_voz ? "por voz" : "por texto"}`;
+  $("practicaConversacion").replaceChildren(...p.mensajes.map((m) => {
+    const b = crear("div", "burbuja " + m.quien);
+    b.append(crear("small", "", m.quien === "representante" ? p.representante : p.dueno), crear("span", "", m.texto));
+    return b;
+  }));
+  const dev = $("practicaDevolucion");
+  dev.replaceChildren();
+  const ev = p.evaluacion;
+  if (!ev) {
+    dev.append(crear("p", "suave", "Esta práctica terminó sin pedir la devolución."));
+  } else {
+    dev.append(crear("h3", "", `Devolución: ${ev.puntaje_general}/10`), crear("p", "", ev.resultado));
+    const lista = (titulo, items) => {
+      const ul = crear("ul"); items.forEach((i) => ul.append(crear("li", "", i)));
+      dev.append(crear("h3", "", titulo), ul);
+    };
+    lista("Fortalezas", ev.fortalezas);
+    lista("A mejorar", ev.mejoras);
+  }
+  $("practica").scrollIntoView({ behavior: "smooth" });
+}
+$("cerrarPractica").onclick = () => { $("practica").hidden = true; };
+
+// ---------------------------------------------------------------- códigos de acceso
+function pintarCodigos() {
+  const tabla = $("tablaCodigos"), cab = crear("tr");
+  ["Consultor", "País", "Código", "Estado", ""].forEach((t) => cab.append(crear("th", "", t)));
+  const filas = datos.consultores.map((c) => {
+    const tr = crear("tr", c.activo ? "" : "apagado"), acciones = crear("td"), caja = crear("div", "acciones");
+    const nuevo = crear("button", "", "Nuevo código");
+    nuevo.onclick = () => cambiar(c, { nuevo_codigo: true }, `¿Generar un código nuevo para ${c.nombre}? El actual deja de funcionar.`);
+    const activar = crear("button", "", c.activo ? "Desactivar" : "Activar");
+    activar.onclick = () => cambiar(c, { activo: !c.activo }, c.activo ? `¿Desactivar a ${c.nombre}? No va a poder entrar; sus prácticas se conservan.` : null);
+    caja.append(nuevo, activar); acciones.append(caja);
+    tr.append(crear("td", "", c.nombre), crear("td", "", PAISES[c.pais]), crear("td", "codigo", c.codigo),
+              crear("td", "", c.activo ? "Activo" : "Desactivado"), acciones);
+    return tr;
+  });
+  if (!filas.length) {
+    const tr = crear("tr"), td = crear("td", "suave", "Todavía no creaste códigos.");
+    td.colSpan = 5; tr.append(td); filas.push(tr);
+  }
+  tabla.replaceChildren(cab, ...filas);
+}
+
+async function cambiar(c, cambio, pregunta) {
+  if (pregunta && !confirm(pregunta)) return;
+  try { await api(`/api/gestor/consultores/${c.id}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(cambio) }); }
+  catch (e) { if (e.message !== "sin acceso") alert(e.message); return; }
+  cargarTodo();
+}
+
+$("formAlta").onsubmit = async (e) => {
+  e.preventDefault();
+  $("errorAlta").textContent = "";
+  try {
+    await api("/api/gestor/consultores", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre: $("altaNombre").value, pais: $("altaPais").value }) });
+    $("altaNombre").value = "";
+    cargarTodo();
+  } catch (err) { if (err.message !== "sin acceso") $("errorAlta").textContent = err.message; }
+};
+
+$("formAcceso").onsubmit = async (e) => {
+  e.preventDefault();
+  codigo = $("codigo").value.trim();
+  try { await cargarTodo(); try { sessionStorage.setItem("codigoGestor", codigo); } catch {} } catch {}
+};
+
+cargarTodo().catch(() => {});
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: P01
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: posventa
+dificultad: media
+titulo:
+  es: Toyota 10 / mantenimiento
+  pt: Toyota 10 / manutenção
+consigna:
+  es: Elevar retorno al taller de 55% a 65% en 90 días.
+  pt: Elevar o retorno à oficina de 55% para 65% em 90 dias.
+contexto_visible:
+  es: Perfil analítico. Concesionario mediano, al 82% de su objetivo de servicios; caja estable.
+  pt: Perfil analítico. Concessionária média, em 82% da meta de serviços; caixa estável.
+dueno:
+  nombre:
+    ar: Claudia Sosa
+    br: Cláudia Souza
+  edad: 50
+  genero: f
+  perfil: 'Analítico: pide números y casos de negocio para todo; desconfía de las afirmaciones generales
+    y hace preguntas incómodas.'
+concesionario: Perfil analítico. Concesionario mediano, al 82% de su objetivo de servicios; caja estable.
+situacion: La reunión es sobre Toyota 10 / mantenimiento.
+objecion_inicial: El cliente se va por precio; no puedo bajar tarifas.
+interes_oculto: Teme erosionar margen de mano de obra.
+objeciones:
+- El cliente se va por precio; no puedo bajar tarifas.
+que_lo_mueve:
+- Segmentar clientes, explicar cobertura y medir retorno.
+limite: 'Máximo acuerdo: 60% en 60 días; 65% con evidencia de rentabilidad.'
+no_negociable: No promete cobertura fuera de condiciones.
+referencias:
+  ar:
+  - nombre: Ginza
+    detalle: Toyota 10 publicado
+    fuente: https://www.ginzasa.com.ar/terminoslegales/terminos-condiciones-garantia
+  - nombre: Milanesio
+    detalle: Toyota 10 publicado
+    fuente: https://www.toyotamilanesio.com.ar/servicios/garantia-toyota
+  br:
+  - nombre: Osaka
+    detalle: garantía y posventa; condiciones locales
+    fuente: https://osakaveiculos.com.br/

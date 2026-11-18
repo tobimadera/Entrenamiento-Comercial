@@ -1,0 +1,42 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: P06
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: posventa
+dificultad: media
+titulo:
+  es: Chapa y pintura / reclamos
+  pt: Funilaria e pintura / reclamações
+consigna:
+  es: Reducir retrabajos de 8% a 4% en 90 días.
+  pt: Reduzir o retrabalho de 8% para 4% em 90 dias.
+contexto_visible:
+  es: Perfil relacional. Concesionario mediano, con la satisfacción en descenso; caja estable.
+  pt: Perfil relacional. Concessionária média, com a satisfação em queda; caixa estável.
+dueno:
+  nombre:
+    ar: Raúl Medina
+    br: Raul Medeiros
+  edad: 60
+  genero: m
+  perfil: 'Relacional: valora el vínculo personal y evita el conflicto, pero no asume culpas que no son
+    suyas.'
+concesionario: Perfil relacional. Concesionario mediano, con la satisfacción en descenso; caja estable.
+situacion: La reunión es sobre Chapa y pintura / reclamos.
+objecion_inicial: Las demoras son de aseguradoras y piezas.
+interes_oculto: Teme asumir responsabilidad ajena.
+objeciones:
+- Las demoras son de aseguradoras y piezas.
+que_lo_mueve:
+- Separar causas, auditoría conjunta y acciones por responsable.
+limite: 'Máximo acuerdo: 6% en 45 días; 4% en 90 sujeto a causas controlables.'
+no_negociable: No oculta reclamos ni altera indicadores.
+referencias:
+  ar:
+  - nombre: Jorge Ferro
+    detalle: reparación integral de carrocería
+    fuente: https://jorgeferro.ar/
+  br:
+  - nombre: Toyopar
+    detalle: funilaria e pintura
+    fuente: https://www.toyopar.com.br/

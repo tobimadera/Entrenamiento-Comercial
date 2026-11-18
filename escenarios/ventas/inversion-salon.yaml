@@ -12,6 +12,7 @@ consigna:
 dueno:
   nombre: { ar: "Marcela Ferrari", br: "Marcela Ferreira" }
   edad: 49
+  genero: f
   perfil: >
     Empresaria con varios negocios además del concesionario. Muy analítica, pide
     retorno de inversión para todo. Cordial pero dura negociando; usa el silencio

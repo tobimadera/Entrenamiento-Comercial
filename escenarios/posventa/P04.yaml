@@ -1,0 +1,44 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: P04
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: posventa
+dificultad: media
+titulo:
+  es: Accesorios originales
+  pt: Acessórios genuínos
+consigna:
+  es: Subir instalación de accesorios de 15% a 25% de entregas.
+  pt: Aumentar a instalação de acessórios de 15% para 25% das entregas.
+contexto_visible:
+  es: Perfil comercial. Concesionario grande, al 105% de su objetivo; caja sólida.
+  pt: Perfil comercial. Concessionária grande, em 105% da meta; caixa sólido.
+dueno:
+  nombre:
+    ar: Mariano Costa
+    br: Marcos Costa
+  edad: 48
+  genero: m
+  perfil: 'Comercial: piensa en margen y velocidad; si algo deja más plata o sale más rápido, lo prefiere.'
+concesionario: Perfil comercial. Concesionario grande, al 105% de su objetivo; caja sólida.
+situacion: La reunión es sobre Accesorios originales.
+objecion_inicial: El accesorio alternativo deja más margen.
+interes_oculto: Prioriza margen y velocidad de instalación.
+objeciones:
+- El accesorio alternativo deja más margen.
+que_lo_mueve:
+- Mostrar contribución, garantía aplicable y paquetes opcionales.
+limite: 'Máximo acuerdo: 20% piloto; 25% si margen y satisfacción se sostienen.'
+no_negociable: No impone accesorios al comprador.
+referencias:
+  ar:
+  - nombre: Panamericana
+    detalle: accesorios originales
+    fuente: https://www.toyotapanamericana.com/landing/Sustentabilidad/TOYOTA%20PANAMERICANA_REPORTE%20DE%20SUSTENTABILIDAD%202021_V.07_12_22.pdf
+  - nombre: Del Parque
+    detalle: accesorios originales
+    fuente: https://toyotadelparque.com.ar/docs/Reporte-de-Sustentabilidad-2024.pdf
+  br:
+  - nombre: Inter Japan RJ
+    detalle: catálogo de accesorios
+    fuente: https://toyotarj.itavema.com.br/

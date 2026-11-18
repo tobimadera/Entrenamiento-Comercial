@@ -41,6 +41,20 @@
   #redactar { display: flex; gap: 8px; margin-top: 12px; align-items: flex-end; }
   #redactar textarea { resize: none; height: 72px; }
   .error { color: var(--mal); margin-top: 8px; }
+  .nota { color: var(--suave); font-size: .85rem; margin: 8px 0 0; }
+  #avatar { position: relative; margin: 0 auto 12px; width: 100%; max-width: 420px; aspect-ratio: 1 / 1;
+            border-radius: 12px; overflow: hidden; background: var(--otro); }
+  #avatar video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* Mientras conecta, un velo tapa el video (el video sigue dibujándose: Simli lo necesita). */
+  #estadoAvatar { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center;
+                  padding: 12px; background: var(--otro); color: var(--suave); font-size: .9rem; text-align: center; }
+  #avatar.conectado #estadoAvatar { display: none; }
+  #avatar:not([hidden]) ~ #mensajes { min-height: 20vh; max-height: 30vh; }
+  #referencias button small { display: block; color: var(--suave); font-size: .8rem; }
+  #referencias button.activo small { color: inherit; opacity: .85; }
+  .estado { color: var(--suave); margin-top: 8px; font-size: .9rem; }
+  .acciones { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  button.grabando { background: var(--mal); border-color: var(--mal); color: var(--panel); }
   .puntaje { font-size: 2.4rem; font-weight: 700; }
   .criterio { border-top: 1px solid var(--borde); padding: 10px 0; }
   .criterio b { display: flex; justify-content: space-between; gap: 12px; }
@@ -55,7 +69,7 @@
   <!-- Pantalla 0: código de acceso (solo si el servidor lo exige) -->
   <section id="acceso" hidden>
     <h1>Entrenador de Ventas</h1>
-    <p class="sub">Código de acceso · Código de acesso</p>
+    <p class="sub">Tu código de acceso personal · Seu código de acesso pessoal</p>
     <form class="panel" id="formAcceso">
       <input id="codigo" type="password" autocomplete="off">
       <p style="margin:16px 0 0"><button class="principal">Entrar</button></p>
@@ -77,11 +91,20 @@
       <div class="opciones" id="focos">
         <button data-foco="ventas" data-t="ventas"></button>
         <button data-foco="posventa" data-t="posventa"></button>
+        <button data-foco="especiales" data-t="especiales"></button>
       </div>
       <h2 data-t="escenario"></h2>
       <div id="escenarios"></div>
-      <h2 data-t="tuNombre"></h2>
-      <input id="nombre" autocomplete="off">
+      <div id="bloqueReferencia" hidden>
+        <h2 data-t="concesionario"></h2>
+        <div class="opciones" id="referencias"></div>
+        <p class="nota" data-t="notaReferencia"></p>
+      </div>
+      <div id="bloqueNombre">
+        <h2 data-t="tuNombre"></h2>
+        <input id="nombre" autocomplete="off">
+      </div>
+      <p class="sub" id="quienPractica" hidden style="margin:16px 0 0"></p>
       <p style="margin:16px 0 0"><button class="principal" id="empezar" data-t="empezar" disabled></button></p>
       <div class="error" id="errorInicio"></div>
     </div>
@@ -91,15 +114,25 @@
   <section id="chat" hidden>
     <div class="cabecera">
       <div><span class="etiqueta" data-t="reunionCon"></span><h1 id="dueno"></h1></div>
-      <button id="terminar" data-t="terminar"></button>
+      <div class="acciones">
+        <button id="vozActiva" hidden></button>
+        <button id="terminar" data-t="terminar"></button>
+      </div>
     </div>
     <div class="panel">
       <div id="consigna"></div>
+      <div id="avatar" hidden>
+        <video id="avatarVideo" autoplay playsinline muted></video>
+        <audio id="avatarAudio" autoplay></audio>
+        <div id="estadoAvatar"></div>
+      </div>
       <div id="mensajes"></div>
       <div id="redactar">
         <textarea id="texto"></textarea>
+        <button id="microfono" hidden></button>
         <button class="principal" id="enviar" data-t="enviar"></button>
       </div>
+      <div class="estado" id="estadoVoz"></div>
       <div class="error" id="errorChat"></div>
     </div>
   </section>
@@ -123,6 +156,15 @@ const TEXTOS = {
     devolucion: "Devolución", otra: "Practicar otra vez", resultado: "Resultado", criterios: "Criterios",
     fortalezas: "Fortalezas", mejoras: "A mejorar", momentos: "Momentos clave", dijiste: "Dijiste",
     alternativa: "Alternativa", dificultad: "Dificultad", corta: "Conversá un poco más antes de pedir la evaluación.",
+    especiales: "Ventas especiales", concesionario: "Concesionario a imitar", generico: "Genérico",
+    genericoDetalle: "sin concesionario de referencia",
+    notaReferencia: "Concesionarios reales de la red, tomados como referencia comercial. La personalidad, los números y los problemas del dueño son ficticios.",
+    contexto: "Lo que sabés del dueño: ",
+    conectando: "Conectando con", sinAvatar: "No se pudo mostrar la cara; el dueño sigue hablando solo con voz.",
+    avatarOcupado: "Ahora no hay lugar para otra cara (se alcanzó el máximo de prácticas con avatar al mismo tiempo). El dueño sigue hablando solo con voz.",
+    practicasComo: "Practicás como", hablar: "Hablar", enviarAudio: "Enviar audio", vozSi: "Voz: sí", vozNo: "Voz: no",
+    grabando: "Grabando… tocá «Enviar audio» cuando termines.", transcribiendo: "Pasando tu audio a texto…",
+    sinMic: "No se pudo usar el micrófono. Revisá el permiso del navegador.", nadaOido: "No se entendió el audio. Probá de nuevo.",
   },
   pt: {
     titulo: "Treinador de Vendas", subtitulo: "Pratique uma reunião com o dono de uma concessionária e receba um feedback.",
@@ -133,10 +175,21 @@ const TEXTOS = {
     devolucion: "Feedback", otra: "Praticar de novo", resultado: "Resultado", criterios: "Critérios",
     fortalezas: "Pontos fortes", mejoras: "A melhorar", momentos: "Momentos-chave", dijiste: "Você disse",
     alternativa: "Alternativa", dificultad: "Dificuldade", corta: "Converse um pouco mais antes de pedir a avaliação.",
+    especiales: "Vendas especiais", concesionario: "Concessionária a imitar", generico: "Genérica",
+    genericoDetalle: "sem concessionária de referência",
+    notaReferencia: "Concessionárias reais da rede, usadas como referência comercial. A personalidade, os números e os problemas do dono são fictícios.",
+    contexto: "O que você sabe do dono: ",
+    conectando: "Conectando com", sinAvatar: "Não foi possível mostrar o rosto; o dono continua falando só com voz.",
+    avatarOcupado: "Agora não há vaga para outro rosto (chegou-se ao máximo de práticas com avatar ao mesmo tempo). O dono continua falando só com voz.",
+    practicasComo: "Praticando como", hablar: "Falar", enviarAudio: "Enviar áudio", vozSi: "Voz: sim", vozNo: "Voz: não",
+    grabando: "Gravando… toque em «Enviar áudio» quando terminar.", transcribiendo: "Transcrevendo seu áudio…",
+    sinMic: "Não foi possível usar o microfone. Verifique a permissão do navegador.", nadaOido: "O áudio não foi entendido. Tente de novo.",
   },
 };
 const $ = (id) => document.getElementById(id);
-const estado = { pais: "ar", foco: "ventas", escenario: null, escenarios: [], sesion: null, dueno: "", ocupado: false };
+const estado = { pais: "ar", foco: "ventas", escenario: null, escenarios: [], sesion: null, dueno: "", ocupado: false,
+                 voz: false, vozActiva: true, turno: 0 };
+let grabador = null, audioActual = null;
 const idioma = () => (estado.pais === "br" ? "pt" : "es");
 const t = (clave) => TEXTOS[idioma()][clave];
 
@@ -159,10 +212,37 @@ function pintar() {
     const b = crear("button", "escenario" + (esc.id === estado.escenario ? " activo" : ""));
     b.append(crear("span", "", esc.titulo[idioma()]),
              crear("small", "", `${t("dificultad")}: ${esc.dificultad} · ${esc.consigna[idioma()]}`));
-    b.onclick = () => { estado.escenario = esc.id; pintar(); };
+    b.onclick = () => { estado.escenario = esc.id; estado.referencia = null; pintar(); };
     lista.append(b);
   }
+  pintarReferencias();
   $("empezar").disabled = !estado.escenario;
+  if (estado.consultor) $("quienPractica").textContent = `${t("practicasComo")} ${estado.consultor.nombre}`;
+  pintarVoz();
+}
+
+// Concesionarios reales del país elegido que el escenario trae como referencia.
+function pintarReferencias() {
+  const esc = estado.escenarios.find((e) => e.id === estado.escenario);
+  const refs = (esc && esc.referencias && esc.referencias[estado.pais]) || [];
+  $("bloqueReferencia").hidden = !refs.length;
+  const opcion = (indice, nombre, detalle) => {
+    const b = crear("button", estado.referencia === indice ? "activo" : "");
+    b.append(crear("span", "", nombre), crear("small", "", detalle));
+    b.onclick = () => { estado.referencia = indice; pintarReferencias(); };
+    return b;
+  };
+  $("referencias").replaceChildren(
+    ...refs.map((r, i) => opcion(i, r.nombre, r.detalle)),
+    opcion(null, t("generico"), t("genericoDetalle")));
+}
+
+function pintarVoz() {
+  $("vozActiva").hidden = $("microfono").hidden = !estado.voz;
+  $("vozActiva").textContent = estado.vozActiva ? t("vozSi") : t("vozNo");
+  $("vozActiva").classList.toggle("activo", estado.vozActiva);
+  $("microfono").textContent = grabador ? t("enviarAudio") : t("hablar");
+  $("microfono").classList.toggle("grabando", !!grabador);
 }
 
 function mostrar(pantalla) {
@@ -182,6 +262,16 @@ async function cargarEscenarios() {
   const r = await api("/api/escenarios");
   if (!r.ok) return false;
   estado.escenarios = await r.json();
+  try {
+    const config = await (await api("/api/config")).json();
+    estado.voz = config.voz === true;
+    estado.avatar = config.avatar === true;
+    estado.consultor = config.consultor;
+  } catch { estado.voz = false; estado.consultor = null; }
+  // Con código personal, la práctica queda a su nombre: no hace falta escribirlo.
+  if (estado.consultor && !estado.paisElegido) estado.pais = estado.consultor.pais;
+  $("bloqueNombre").hidden = !!estado.consultor;
+  $("quienPractica").hidden = !estado.consultor;
   pintar();
   mostrar("inicio");
   return true;
@@ -198,7 +288,212 @@ function burbuja(clase, quien, texto) {
 
 function ocupar(si) {
   estado.ocupado = si;
-  $("enviar").disabled = $("terminar").disabled = si;
+  $("enviar").disabled = $("terminar").disabled = $("microfono").disabled = si;
+}
+
+// ---------------------------------------------------------------- voz
+// El dueño habla frase por frase mientras Claude escribe: cada frase completa se pide a
+// ElevenLabs enseguida y se reproduce en orden, sin esperar la respuesta entera.
+const cola = [];
+let sonando = false;
+
+function callar() {
+  estado.turno++;  // lo que estaba en camino ya no se reproduce
+  cola.splice(0).forEach(({ audio }) => audio.then((a) => {
+    if (a.tipo === "mp3") URL.revokeObjectURL(a.dato); else a.dato.body?.cancel().catch(() => {});
+  }, () => {}));
+  if (audioActual) audioActual.pause();
+  if (avatar.cliente) avatar.cliente.ClearBuffer();
+}
+
+// mp3: se reproduce en la página. pcm: va al avatar, que lo devuelve con la cara hablando.
+function pedirAudio(frase, formato) {
+  return api(`/api/sesiones/${estado.sesion}/voz`, {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texto: frase, formato }),
+  }).then(async (r) => {
+    if (!r.ok) throw new Error(await textoDeError(r));
+    // pcm: se entrega la respuesta sin leer, para pasarle el audio al avatar a medida que llega.
+    return formato === "pcm"
+      ? { tipo: "pcm", dato: r }
+      : { tipo: "mp3", dato: URL.createObjectURL(await r.blob()) };
+  });
+}
+
+// ---------------------------------------------------------------- avatar (Simli)
+// El servidor da un permiso de sesión; la clave de Simli nunca llega a la página.
+// Si el avatar no conecta o se corta, el dueño sigue hablando solo con voz.
+const avatar = { cliente: null, listo: null, modulo: null };
+
+function asegurarAvatar() {
+  if (!estado.avatar || !estado.vozActiva || !estado.sesion) return Promise.resolve(false);
+  if (!avatar.listo) avatar.listo = conectarAvatar(estado.sesion);
+  return avatar.listo;
+}
+
+async function conectarAvatar(sesion) {
+  $("avatar").hidden = false;
+  $("avatar").classList.remove("conectado");
+  $("estadoAvatar").textContent = `${t("conectando")} ${estado.dueno}…`;
+  try {
+    avatar.modulo ??= await import("https://esm.sh/simli-client@3.2.0");
+    const r = await api(`/api/sesiones/${sesion}/avatar`, { method: "POST" });
+    if (!r.ok) throw new Error(await textoDeError(r));
+    const { session_token } = await r.json();
+    const { SimliClient, LogLevel } = avatar.modulo;
+    const c = new SimliClient(session_token, $("avatarVideo"), $("avatarAudio"), null, LogLevel.ERROR);
+    c.on("stop", () => { if (avatar.cliente === c) { avatar.cliente = null; avatar.listo = null; $("avatar").classList.remove("conectado"); } });
+    c.on("error", (detalle) => console.warn("Simli:", detalle));
+    // Simli da por lista la cara cuando el navegador dibuja el primer cuadro. Si no aparece en
+    // 20 s (por ejemplo, la pestaña quedó en segundo plano), se cierra para no gastar minutos.
+    let espera;
+    const limite = new Promise((_, rechazar) => { espera = setTimeout(() => rechazar(new Error("la cara tardó demasiado")), 20000); });
+    try { await Promise.race([c.start(), limite]); }
+    catch (e) { c.stop().catch(() => {}); throw e; }
+    finally { clearTimeout(espera); }
+    if (sesion !== estado.sesion) { c.stop().catch(() => {}); return false; }  // ya terminó esa práctica
+    avatar.cliente = c;
+    $("avatar").classList.add("conectado");
+    $("estadoAvatar").textContent = "";
+    return true;
+  } catch (e) {
+    console.warn("Avatar:", e);
+    $("estadoAvatar").textContent = /RATE LIMIT/i.test(String(e)) ? t("avatarOcupado") : t("sinAvatar");
+    return false;
+  }
+}
+
+function cerrarAvatar() {
+  const c = avatar.cliente;
+  avatar.cliente = null;
+  avatar.listo = null;
+  if (c) c.stop().catch(() => {});
+  $("avatar").classList.remove("conectado");
+}
+
+const TROZO = 6000;  // bytes de PCM por envío, como recomienda Simli (~190 ms de audio)
+// Pasa el audio de una frase al avatar mientras ElevenLabs lo genera, sin esperar a que termine.
+// Cada muestra son 2 bytes: un byte suelto al final de un pedazo espera al siguiente.
+async function mandarAlAvatar(respuesta, turno) {
+  const lector = respuesta.body.getReader();
+  let pendiente = new Uint8Array(0);
+  for (;;) {
+    const { done, value } = await lector.read();
+    if (turno !== estado.turno || !avatar.cliente) { lector.cancel().catch(() => {}); return; }
+    if (value) {
+      const junto = new Uint8Array(pendiente.length + value.length);
+      junto.set(pendiente); junto.set(value, pendiente.length);
+      const util = done ? junto.length : junto.length - (junto.length % TROZO);
+      for (let i = 0; i < util; i += TROZO) avatar.cliente.sendAudioData(junto.subarray(i, Math.min(i + TROZO, util)));
+      pendiente = junto.subarray(util);
+    }
+    if (done) {
+      if (pendiente.length > 1) avatar.cliente.sendAudioData(pendiente.subarray(0, pendiente.length - (pendiente.length % 2)));
+      return;
+    }
+  }
+}
+
+function sonar(url) {
+  return new Promise((fin) => {
+    const a = new Audio(url);
+    audioActual = a;
+    const listo = () => { if (audioActual === a) audioActual = null; URL.revokeObjectURL(url); fin(); };
+    a.onended = a.onpause = a.onerror = listo;
+    a.play().catch(listo);
+  });
+}
+
+async function reproducirCola() {
+  sonando = true;
+  while (cola.length) {
+    const { audio, turno } = cola.shift();
+    let a;
+    try { a = await audio; } catch (e) { $("errorChat").textContent = e.message; continue; }
+    const vigente = turno === estado.turno && !grabador && estado.vozActiva;
+    if (a.tipo === "pcm") {
+      // El avatar encola y reproduce en orden; solo hay que mandarle las frases en orden.
+      if (vigente && avatar.cliente) await mandarAlAvatar(a.dato, turno);
+      else a.dato.body?.cancel().catch(() => {});
+      continue;
+    }
+    if (!vigente) { URL.revokeObjectURL(a.dato); continue; }
+    await sonar(a.dato);
+  }
+  sonando = false;
+}
+
+function decirFrase(frase, turno) {
+  // Con avatar, la voz va en PCM a Simli; si el avatar no está (o falla al conectar), en mp3.
+  // La frase no espera a la cara más de 5 s: si todavía no apareció, se dice solo con voz.
+  const cara = Promise.race([asegurarAvatar(), new Promise((listo) => setTimeout(() => listo(false), 5000))]);
+  const audio = cara.then((conAvatar) => pedirAudio(frase, conAvatar && avatar.cliente ? "pcm" : "mp3"));
+  audio.catch(() => {});  // el error se muestra al llegar su turno en la cola
+  cola.push({ audio, turno });
+  if (!sonando) reproducirCola();
+}
+
+// Busca frases terminadas en el texto nuevo y las manda a decir. Junta las muy cortas con la
+// siguiente para que la voz no suene entrecortada. Devuelve hasta dónde ya se mandó.
+const FIN_DE_FRASE = /[.!?…]+["»”)]?\s+/g;
+function decirFrasesNuevas(texto, desde, final, turno) {
+  let resto = texto.slice(desde), m;
+  FIN_DE_FRASE.lastIndex = 0;
+  while ((m = FIN_DE_FRASE.exec(resto))) {
+    const fin = m.index + m[0].length;
+    if (resto.slice(0, fin).trim().length < 20) continue;
+    decirFrase(resto.slice(0, fin).trim(), turno);
+    desde += fin;
+    resto = resto.slice(fin);
+    FIN_DE_FRASE.lastIndex = 0;
+  }
+  if (final && resto.trim()) { decirFrase(resto.trim(), turno); desde = texto.length; }
+  return desde;
+}
+
+const FORMATOS = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"];
+async function microfono() {
+  if (grabador) { grabador.stop(); return; }
+  if (estado.ocupado) return;
+  callar();
+  $("errorChat").textContent = "";
+  let flujo;
+  try { flujo = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+  catch { $("errorChat").textContent = t("sinMic"); return; }
+  const formato = FORMATOS.find((f) => window.MediaRecorder && MediaRecorder.isTypeSupported(f)) || "";
+  const partes = [];
+  const g = new MediaRecorder(flujo, formato ? { mimeType: formato } : undefined);
+  g.ondataavailable = (e) => { if (e.data.size) partes.push(e.data); };
+  g.onstop = () => {
+    flujo.getTracks().forEach((pista) => pista.stop());
+    grabador = null;
+    pintarVoz();
+    enviarAudio(new Blob(partes, { type: g.mimeType || formato || "audio/webm" }));
+  };
+  grabador = g;
+  g.start();
+  $("terminar").disabled = $("enviar").disabled = true;
+  $("estadoVoz").textContent = t("grabando");
+  pintarVoz();
+}
+
+async function enviarAudio(blob) {
+  ocupar(true);
+  $("estadoVoz").textContent = t("transcribiendo");
+  const extension = blob.type.includes("mp4") ? "m4a" : blob.type.includes("ogg") ? "ogg" : "webm";
+  const datos = new FormData();
+  datos.append("audio", blob, "turno." + extension);
+  let texto = "";
+  try {
+    const r = await api(`/api/sesiones/${estado.sesion}/transcripcion`, { method: "POST", body: datos });
+    if (!r.ok) throw new Error(await textoDeError(r));
+    texto = (await r.json()).texto;
+    if (!texto) throw new Error(t("nadaOido"));
+  } catch (e) {
+    $("errorChat").textContent = e.message;
+  }
+  $("estadoVoz").textContent = "";
+  ocupar(false);
+  if (texto) hablar(texto, true);
 }
 
 async function textoDeError(r) {
@@ -206,14 +501,18 @@ async function textoDeError(r) {
 }
 
 // Envía lo que dijo el representante (vacío = el dueño abre la reunión) y va mostrando la respuesta.
-async function hablar(texto) {
+async function hablar(texto, porVoz = false) {
   $("errorChat").textContent = "";
   ocupar(true);
+  callar();
+  const turno = estado.turno, conVoz = estado.voz && estado.vozActiva;
+  let dicho = 0;
   if (texto) burbuja("yo", t("vos"), texto);
   const cuerpo = burbuja("dueno", estado.dueno, "…");
   try {
     const r = await api(`/api/sesiones/${estado.sesion}/mensaje`, {
-      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texto }),
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto, por_voz: porVoz, hablado: conVoz }),
     });
     if (!r.ok) throw new Error(await textoDeError(r));
     const lector = r.body.getReader(), deco = new TextDecoder();
@@ -226,29 +525,36 @@ async function hablar(texto) {
       cuerpo.textContent = corte < 0 ? todo : todo.slice(0, corte);
       $("mensajes").scrollTop = $("mensajes").scrollHeight;
       if (corte >= 0) throw new Error(todo.slice(corte + 11));
+      if (conVoz) dicho = decirFrasesNuevas(todo, dicho, false, turno);
     }
+    if (conVoz) decirFrasesNuevas(todo, dicho, true, turno);
   } catch (e) {
     if (cuerpo.textContent === "…" || !cuerpo.textContent) cuerpo.parentElement.remove();
     $("errorChat").textContent = e.message;
   }
   ocupar(false);
-  $("texto").focus();
+  if (!porVoz) $("texto").focus();
 }
 
 async function empezar() {
   $("errorInicio").textContent = "";
   const r = await api("/api/sesiones", {
     method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ escenario_id: estado.escenario, pais: estado.pais, nombre: $("nombre").value }),
+    body: JSON.stringify({ escenario_id: estado.escenario, pais: estado.pais, nombre: $("nombre").value,
+                           referencia: estado.referencia }),
   });
   if (!r.ok) { $("errorInicio").textContent = await textoDeError(r); return; }
   const datos = await r.json();
   estado.sesion = datos.id; estado.dueno = datos.dueno;
-  $("dueno").textContent = datos.dueno;
+  $("dueno").textContent = datos.concesionario ? `${datos.dueno} · ${datos.concesionario}` : datos.dueno;
   const esc = estado.escenarios.find((e) => e.id === estado.escenario);
-  $("consigna").textContent = t("objetivo") + esc.consigna[idioma()];
+  $("consigna").textContent = t("objetivo") + esc.consigna[idioma()]
+    + (esc.contexto ? ` ${t("contexto")}${esc.contexto[idioma()]}` : "");
   $("mensajes").replaceChildren();
+  cerrarAvatar();
+  $("avatar").hidden = !(estado.avatar && estado.vozActiva);
   mostrar("chat");
+  asegurarAvatar();  // conecta la cara mientras Claude prepara el saludo
   hablar("");
 }
 
@@ -260,6 +566,9 @@ function enviar() {
 }
 
 async function terminar() {
+  if (grabador) return;
+  callar();
+  cerrarAvatar();  // cada minuto de avatar conectado se cobra
   ocupar(true);
   $("errorChat").textContent = t("evaluando");
   const r = await api(`/api/sesiones/${estado.sesion}/evaluacion`, { method: "POST" });
@@ -298,12 +607,21 @@ function pintarDevolucion(ev) {
   }
 }
 
-$("paises").onclick = (e) => { if (e.target.dataset.pais) { estado.pais = e.target.dataset.pais; pintar(); } };
+$("paises").onclick = (e) => { if (e.target.dataset.pais) { estado.pais = e.target.dataset.pais; estado.paisElegido = true; estado.referencia = null; pintar(); } };
 $("focos").onclick = (e) => { if (e.target.dataset.foco) { estado.foco = e.target.dataset.foco; estado.escenario = null; pintar(); } };
 $("empezar").onclick = empezar;
 $("enviar").onclick = enviar;
 $("terminar").onclick = terminar;
-$("otra").onclick = () => { estado.escenario = null; pintar(); mostrar("inicio"); };
+$("microfono").onclick = microfono;
+$("vozActiva").onclick = () => {
+  estado.vozActiva = !estado.vozActiva;
+  if (!estado.vozActiva) { callar(); cerrarAvatar(); }  // sin voz, la cara no tiene qué decir
+  $("avatar").hidden = !(estado.avatar && estado.vozActiva);
+  if (estado.vozActiva && estado.sesion && !$("chat").hidden) asegurarAvatar();
+  pintarVoz();
+};
+$("otra").onclick = () => { callar(); cerrarAvatar(); estado.escenario = null; pintar(); mostrar("inicio"); };
+window.addEventListener("pagehide", cerrarAvatar);
 $("texto").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); enviar(); } });
 
 $("formAcceso").onsubmit = async (e) => {

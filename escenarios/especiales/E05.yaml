@@ -1,0 +1,48 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: E05
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: especiales
+dificultad: alta
+titulo:
+  es: Minería / energía
+  pt: Mineração / energia
+consigna:
+  es: Proponer 50 Hilux y soporte de mantenimiento.
+  pt: Propor 50 Hilux com suporte de manutenção.
+contexto_visible:
+  es: Perfil dominante. Concesionario grande, al 115% de su objetivo; caja sólida.
+  pt: Perfil dominante. Concessionária grande, em 115% da meta; caixa sólido.
+dueno:
+  nombre:
+    ar: Daniel Acosta
+    br: Daniel Assis
+  edad: 58
+  genero: m
+  perfil: 'Dominante: le gusta tener la última palabra, habla firme y no tolera que le impongan nada.
+    Respeta a quien le discute con datos.'
+concesionario: Perfil dominante. Concesionario grande, al 115% de su objetivo; caja sólida.
+situacion: La reunión es sobre Minería / energía.
+objecion_inicial: El cliente exige disponibilidad en zonas remotas.
+interes_oculto: Teme exposición por SLA y costos logísticos.
+objeciones:
+- El cliente exige disponibilidad en zonas remotas.
+que_lo_mueve:
+- Plan técnico, cobertura, repuestos y SLA realista.
+limite: 'Máximo acuerdo: Piloto 15 unidades; escala a 50 tras validar capacidad.'
+no_negociable: No promete cobertura operativa inexistente.
+referencias:
+  ar:
+  - nombre: Treos
+    detalle: Hilux minería
+    fuente: https://treos.com.ar/alquiler-flotas-empresas/hilux-mineria/
+  - nombre: Nippon Car
+    detalle: taller móvil en Neuquén
+    fuente: https://media.toyota.com.ar/c6c00dc5-aafe-4ac5-81a0-d87cb904d4a7.pdf
+  br:
+  - nombre: Terra Forte (Nova Lima)
+    detalle: proximidad regional y oferta Hilux/flotas; minería no verificada
+    fuente: https://minas.terrafortetoyota.com.br/
+  - nombre: Osaka (MG)
+    detalle: proximidad regional y oferta Hilux/flotas; minería no verificada
+    fuente: https://osakaveiculos.com.br/

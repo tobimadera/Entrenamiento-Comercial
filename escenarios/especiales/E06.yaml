@@ -1,0 +1,48 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: E06
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: especiales
+dificultad: media
+titulo:
+  es: Personas con discapacidad / diplomáticos
+  pt: Pessoas com deficiência (PcD) / diplomatas
+consigna:
+  es: Designar referente y mejorar seguimiento de solicitudes.
+  pt: Designar um responsável e melhorar o acompanhamento das solicitações.
+contexto_visible:
+  es: Perfil relacional. Concesionario pequeño, al 80% de su objetivo; caja estable.
+  pt: Perfil relacional. Concessionária pequena, em 80% da meta; caixa estável.
+dueno:
+  nombre:
+    ar: Mónica Ruiz
+    br: Mônica Rocha
+  edad: 49
+  genero: f
+  perfil: 'Relacional: valora el vínculo personal y evita el conflicto, pero no asume culpas que no son
+    suyas.'
+concesionario: Perfil relacional. Concesionario pequeño, al 80% de su objetivo; caja estable.
+situacion: La reunión es sobre Personas con discapacidad / diplomáticos.
+objecion_inicial: La documentación consume tiempo y no conocemos requisitos.
+interes_oculto: Teme errores administrativos y demoras.
+objeciones:
+- La documentación consume tiempo y no conocemos requisitos.
+que_lo_mueve:
+- Checklist legal vigente, capacitación y canal de consulta.
+limite: 'Máximo acuerdo: Designa referente parcial y revisa 5 casos iniciales.'
+no_negociable: No promete beneficios fiscales ni elegibilidad sin validación.
+referencias:
+  ar:
+  - nombre: Alem Motors
+    detalle: PcD y diplomáticos
+    fuente: https://www.alemmotors.com.ar/FlotayVentasEspeciales
+  - nombre: Toyota Viola
+    detalle: PcD y diplomáticos
+    fuente: https://www.toyotaviola.com.ar/corporativo
+  br:
+  - nombre: Inter Japan SP
+    detalle: PcD; régimen diplomático no verificado
+    fuente: https://toyotasp.itavema.com.br/
+  - nombre: Weiand
+    detalle: PcD; régimen diplomático no verificado
+    fuente: https://www.weiandtoyota.com.br/

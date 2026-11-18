@@ -1,0 +1,45 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: E03
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: especiales
+dificultad: alta
+titulo:
+  es: KINTO One Fleet
+  pt: KINTO One Fleet
+consigna:
+  es: Generar 3 oportunidades corporativas en 90 días.
+  pt: Gerar 3 oportunidades corporativas em 90 dias.
+contexto_visible:
+  es: Perfil tradicional. Concesionario mediano, al 100% de su objetivo minorista; caja estable.
+  pt: Perfil tradicional. Concessionária média, em 100% da meta de varejo; caixa estável.
+dueno:
+  nombre:
+    ar: Enrique Salas
+    br: Henrique Sales
+  edad: 62
+  genero: m
+  perfil: 'Tradicional: vende como siempre vendió, por relación; desconfía de procesos, sistemas y controles
+    nuevos.'
+concesionario: Perfil tradicional. Concesionario mediano, al 100% de su objetivo minorista; caja estable.
+situacion: La reunión es sobre KINTO One Fleet.
+objecion_inicial: El alquiler me quita ventas y no sé quién gana qué.
+interes_oculto: Teme desintermediación y pérdida de vínculo.
+objeciones:
+- El alquiler me quita ventas y no sé quién gana qué.
+que_lo_mueve:
+- Clarificar reparto de responsabilidades y economía del canal.
+limite: 'Máximo acuerdo: 2 oportunidades piloto; 3 si roles y retorno se validan.'
+no_negociable: No compromete capital sin condiciones aprobadas.
+referencias:
+  ar:
+  - nombre: Treos
+    detalle: oferta de renting corporativo
+    fuente: https://treos.com.ar/alquiler-flotas-empresas/hilux-mineria/
+  - nombre: Nippon Car
+    detalle: oferta de renting corporativo
+    fuente: https://www.nipponcar.com.ar/wp-content/uploads/2026/06/Reporte2024_NipponCar-DIGITAL.pdf
+  br:
+  - nombre: Toyopar
+    detalle: Kinto One para empresas
+    fuente: https://www.toyopar.com.br/novo-ofertas

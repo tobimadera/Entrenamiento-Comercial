@@ -1,0 +1,42 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: V06
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: ventas
+dificultad: alta
+titulo:
+  es: Gestión de leads digitales
+  pt: Gestão de leads digitais
+consigna:
+  es: Responder 90% de leads en 2 horas hábiles.
+  pt: Responder 90% dos leads em até 2 horas úteis.
+contexto_visible:
+  es: Perfil tradicional. Concesionario pequeño, al 90% de su objetivo; caja estable.
+  pt: Perfil tradicional. Concessionária pequena, em 90% da meta; caixa estável.
+dueno:
+  nombre:
+    ar: Hugo Benítez
+    br: Hugo Bentes
+  edad: 66
+  genero: m
+  perfil: 'Tradicional: vende como siempre vendió, por relación; desconfía de procesos, sistemas y controles
+    nuevos.'
+concesionario: Perfil tradicional. Concesionario pequeño, al 90% de su objetivo; caja estable.
+situacion: La reunión es sobre Gestión de leads digitales.
+objecion_inicial: Mi equipo vende por relación, no por CRM.
+interes_oculto: Teme control externo y carga administrativa.
+objeciones:
+- Mi equipo vende por relación, no por CRM.
+que_lo_mueve:
+- Demostrar pérdidas de leads; simplificar proceso.
+limite: 'Máximo acuerdo: 80% en 4 horas primer mes; luego objetivo completo.'
+no_negociable: No comparte datos sin autorización y finalidad legítima.
+referencias:
+  ar:
+  - nombre: Nippon Car
+    detalle: campañas digitales documentadas en reporte
+    fuente: https://www.nipponcar.com.ar/wp-content/uploads/2026/06/Reporte2024_NipponCar-DIGITAL.pdf
+  br:
+  - nombre: Inter Japan (SP)
+    detalle: captación comercial digital; CRM interno no verificado
+    fuente: https://toyotasp.itavema.com.br/

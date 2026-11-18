@@ -1,0 +1,42 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: E02
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: especiales
+dificultad: alta
+titulo:
+  es: Hiace logística
+  pt: Hiace logística
+consigna:
+  es: Presentar propuesta para 20 utilitarios.
+  pt: Apresentar uma proposta para 20 utilitários.
+contexto_visible:
+  es: Perfil analítico. Concesionario grande, al 105% de su objetivo; caja sólida.
+  pt: Perfil analítico. Concessionária grande, em 105% da meta; caixa sólido.
+dueno:
+  nombre:
+    ar: Verónica Lagos
+    br: Verônica Lago
+  edad: 46
+  genero: f
+  perfil: 'Analítico: pide números y casos de negocio para todo; desconfía de las afirmaciones generales
+    y hace preguntas incómodas.'
+concesionario: Perfil analítico. Concesionario grande, al 105% de su objetivo; caja sólida.
+situacion: La reunión es sobre Hiace logística.
+objecion_inicial: No tengo certeza de entrega ni capacidad para atenderlos.
+interes_oculto: Teme penalidades y paradas de flota.
+objeciones:
+- No tengo certeza de entrega ni capacidad para atenderlos.
+que_lo_mueve:
+- Plan de abastecimiento verificable y capacidad de taller.
+limite: 'Máximo acuerdo: 10 unidades firmes; 10 adicionales sujetas a confirmación.'
+no_negociable: No garantiza fecha sin asignación confirmada.
+referencias:
+  ar:
+  - nombre: Ginza
+    detalle: Hiace y área corporativa
+    fuente: https://ginzasa.com.ar/contacto/testdrive/hiace-w
+  br:
+  - nombre: Inter Japan SP
+    detalle: Hiace furgón para CNPJ
+    fuente: https://toyotasp.itavema.com.br/

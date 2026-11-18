@@ -1,0 +1,24 @@
+# Voces de ElevenLabs para el dueño, por país y por género (campo dueno.genero de cada ficha).
+# Para cambiar una voz: buscarla en elevenlabs.io > Voices, copiar su "Voice ID" y pegarlo acá.
+# Una ficha puede usar otra voz con  dueno: { voz: { ar: <id>, br: <id> } }.
+ar:
+  hombre: jbWMqMKDKL7X0v1DXTHH   # Franco: argentino, maduro y seguro
+  mujer: 0LdgqX7HWxqwl7GGMBS4    # Carolina: rioplatense, conversacional
+br:
+  hombre: R3mQ9kzdIW8y3atS1Ec2   # Kenn: brasileño, conversacional y seguro
+  mujer: TOXnXBKJSHqTwwqoWW0D    # Christine: brasileña, firme y articulada
+
+# Caras del avatar (Simli), con el mismo criterio que las voces. Son caras predefinidas de Simli
+# (docs.simli.com/api-reference/preset-faces); se cambian pegando otro "face ID".
+# Una ficha puede usar otra cara con  dueno: { cara: <id> }.
+caras:
+  ar:
+    hombre: 3bad681f-1b4a-4507-bc54-fbc675c191b7   # Victor: canoso, barba
+    mujer: 99126e69-c224-404c-9aed-80805c1c9a94    # Sophie: blusa blanca
+  br:
+    hombre: 9fcd5739-bf66-49a5-b525-d02d7f0bc2fc   # Hank: camisa blanca
+    mujer: 5a83913c-411b-4afd-8432-b7d685e2aee6    # Claire: saco bordó
+
+# Modelos. flash_v2_5 es el de menor demora con español y portugués.
+modelo_voz: eleven_flash_v2_5
+modelo_transcripcion: scribe_v3

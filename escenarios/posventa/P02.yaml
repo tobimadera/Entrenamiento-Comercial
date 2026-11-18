@@ -1,0 +1,42 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: P02
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: posventa
+dificultad: alta
+titulo:
+  es: Capacidad y turnos
+  pt: Capacidade e agendamento
+consigna:
+  es: Reducir espera a 5 días.
+  pt: Reduzir a espera por agendamento para 5 dias.
+contexto_visible:
+  es: Perfil dominante. Concesionario grande, al 120% de volumen; 12 días de espera para un turno.
+  pt: Perfil dominante. Concessionária grande, em 120% do volume; 12 dias de espera para agendar.
+dueno:
+  nombre:
+    ar: Alberto Funes
+    br: Alberto Fontes
+  edad: 59
+  genero: m
+  perfil: 'Dominante: le gusta tener la última palabra, habla firme y no tolera que le impongan nada.
+    Respeta a quien le discute con datos.'
+concesionario: Perfil dominante. Concesionario grande, al 120% de volumen; 12 días de espera para un turno.
+situacion: La reunión es sobre Capacidad y turnos.
+objecion_inicial: No consigo técnicos; ya trabajo al límite.
+interes_oculto: Teme costos fijos y deterioro de calidad.
+objeciones:
+- No consigo técnicos; ya trabajo al límite.
+que_lo_mueve:
+- Análisis de capacidad y piloto de turnos escalonados.
+limite: 'Máximo acuerdo: 8 días en 30 días; 5 en 90 si hay capacidad.'
+no_negociable: No reduce controles técnicos ni seguridad.
+referencias:
+  ar:
+  - nombre: Jorge Ferro
+    detalle: mantenimiento express y taller
+    fuente: https://jorgeferro.ar/
+  br:
+  - nombre: Toyopar
+    detalle: agenda y servicios express
+    fuente: https://www.toyopar.com.br/

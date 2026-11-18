@@ -1,0 +1,41 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: E01
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: especiales
+dificultad: alta
+titulo:
+  es: Flota Hilux agro
+  pt: Frota Hilux agro
+consigna:
+  es: Cotizar 30 unidades con entregas escalonadas.
+  pt: Cotar 30 unidades com entregas escalonadas.
+contexto_visible:
+  es: Perfil pragmático. Concesionario mediano, al 95% de su objetivo; caja estable.
+  pt: Perfil pragmático. Concessionária média, em 95% da meta; caixa estável.
+dueno:
+  nombre:
+    ar: Carlos Bustos
+    br: Carlos Bastos
+  edad: 53
+  genero: m
+  perfil: 'Pragmático: va al grano; le interesa qué gana, qué arriesga y cuánto tarda en verlo.'
+concesionario: Perfil pragmático. Concesionario mediano, al 95% de su objetivo; caja estable.
+situacion: La reunión es sobre Flota Hilux agro.
+objecion_inicial: Con ese volumen me piden precio y pierdo margen retail.
+interes_oculto: Teme canibalización de ventas y posventa no capturada.
+objeciones:
+- Con ese volumen me piden precio y pierdo margen retail.
+que_lo_mueve:
+- Rentabilidad integral, calendario y mantenimiento opcional.
+limite: 'Máximo acuerdo: 20 unidades iniciales; 30 con disponibilidad y margen validado.'
+no_negociable: No acepta pérdida por unidad fuera de aprobación.
+referencias:
+  ar:
+  - nombre: Ginza
+    detalle: flotas y presencia en Monte Maíz; agro por validar
+    fuente: https://ginzasa.com.ar/web/pdf/Reporte-Sostenibilidad-2024.pdf
+  br:
+  - nombre: Toyopar
+    detalle: venta directa a productor rural y flotas
+    fuente: https://www.toyopar.com.br/venda-diretas

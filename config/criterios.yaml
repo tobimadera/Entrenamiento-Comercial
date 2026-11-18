@@ -1,14 +1,29 @@
 # Criterios con los que se evalúa al representante al terminar la conversación.
 # Se pueden editar, agregar o quitar. Cada foco suma sus criterios a los comunes.
+
+# Puntaje (de 1 a 10) que se espera en cada criterio. El panel del gestor marca como
+# brecha lo que queda por debajo.
+objetivo: 7
+
 comunes:
   - nombre: Preparación y manejo de datos
     descripcion: Usa números concretos del concesionario y del mercado en lugar de afirmaciones generales.
   - nombre: Escucha y diagnóstico
     descripcion: Hace preguntas, entiende la preocupación real del dueño antes de proponer y retoma lo que el dueño dijo.
   - nombre: Manejo de objeciones
-    descripcion: Responde a cada objeción con argumentos, sin esquivarla, sin ceder de más y sin confrontar.
+    descripcion: Responde a cada objeción con argumentos, sin esquivarla y sin confrontar.
   - nombre: Propuesta de valor para el dueño
     descripcion: Presenta el pedido de la marca en términos de rentabilidad y riesgo para el negocio del dueño.
+  - nombre: Influencia
+    descripcion: >-
+      Logra que el dueño cambie de postura por convicción y no por presión: conecta con lo que
+      a él le importa, usa evidencia y ejemplos de concesionarios comparables, construye
+      credibilidad y genera sentido de urgencia sin amenazar.
+  - nombre: Negociación
+    descripcion: >-
+      Intercambia concesiones en lugar de regalarlas (cada cosa que la marca da tiene algo a
+      cambio), sabe qué puede ofrecer y qué no, ancla su pedido, no cede más de lo necesario y
+      busca un acuerdo que le sirva al dueño y a la marca.
   - nombre: Cierre y compromisos
     descripcion: Busca un compromiso concreto con responsable y fecha, y define los próximos pasos.
   - nombre: Relación y tono
@@ -16,6 +31,11 @@ comunes:
 ventas:
   - nombre: Dominio del negocio de ventas
     descripcion: Maneja con soltura stock, rotación, costo financiero, mix, conversión de prospectos y participación de mercado.
+especiales:
+  - nombre: Dominio de ventas especiales
+    descripcion: >-
+      Maneja con soltura flotas, ventas corporativas, licitaciones y regímenes especiales:
+      volumen y margen, plazos de entrega, capacidad de servicio, riesgo de crédito y requisitos legales.
 posventa:
   - nombre: Dominio del negocio de posventa
     descripcion: Maneja con soltura retención, absorción, capacidad de taller, repuestos y satisfacción del cliente, y los vincula con la venta de autos.

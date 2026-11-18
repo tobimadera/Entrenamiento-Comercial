@@ -1,0 +1,44 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: E04
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: especiales
+dificultad: alta
+titulo:
+  es: Licitación pública
+  pt: Licitação pública
+consigna:
+  es: Evaluar oferta de 40 vehículos para organismo público.
+  pt: Avaliar uma oferta de 40 veículos para um órgão público.
+contexto_visible:
+  es: Perfil cauteloso. Concesionario grande, al 90% de su objetivo; caja ajustada.
+  pt: Perfil cauteloso. Concessionária grande, em 90% da meta; caixa apertado.
+dueno:
+  nombre:
+    ar: Gabriela Ortiz
+    br: Gabriela Oliveira
+  edad: 54
+  genero: f
+  perfil: 'Cauteloso: mide cada riesgo y prefiere perder una oportunidad antes que meterse en un problema.'
+concesionario: Perfil cauteloso. Concesionario grande, al 90% de su objetivo; caja ajustada.
+situacion: La reunión es sobre Licitación pública.
+objecion_inicial: Los pagos se demoran y las multas son altas.
+interes_oculto: Teme riesgo de crédito y cumplimiento.
+objeciones:
+- Los pagos se demoran y las multas son altas.
+que_lo_mueve:
+- Revisión legal, flujo de caja y condiciones de licitación.
+limite: 'Máximo acuerdo: Participa si riesgo aprobado; hasta 20 si se permiten lotes.'
+no_negociable: No altera pliegos ni acepta pagos indebidos.
+referencias:
+  ar:
+  - nombre: Ginza
+    detalle: área institucional; participación en licitaciones no verificada
+    fuente: https://ginzasa.com.ar/web/pdf/Reporte-Sostenibilidad-2024.pdf
+  br:
+  - nombre: Osaka
+    detalle: canal Governo; adjudicaciones no verificadas
+    fuente: https://osakaveiculos.com.br/
+  - nombre: Weiand
+    detalle: canal Governo; adjudicaciones no verificadas
+    fuente: https://www.weiandtoyota.com.br/

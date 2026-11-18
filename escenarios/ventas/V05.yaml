@@ -1,0 +1,41 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: V05
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: ventas
+dificultad: media
+titulo:
+  es: Financiación / seguros
+  pt: Financiamento / seguros
+consigna:
+  es: Aumentar penetración financiera de 20% a 35%.
+  pt: Aumentar a penetração financeira de 20% para 35%.
+contexto_visible:
+  es: Perfil pragmático. Concesionario mediano, al 95% de su objetivo; caja estable.
+  pt: Perfil pragmático. Concessionária média, em 95% da meta; caixa estável.
+dueno:
+  nombre:
+    ar: Silvina Arce
+    br: Sílvia Araújo
+  edad: 52
+  genero: f
+  perfil: 'Pragmático: va al grano; le interesa qué gana, qué arriesga y cuánto tarda en verlo.'
+concesionario: Perfil pragmático. Concesionario mediano, al 95% de su objetivo; caja estable.
+situacion: La reunión es sobre Financiación / seguros.
+objecion_inicial: Los bancos locales tienen mejores condiciones.
+interes_oculto: Teme perder operaciones por costo financiero.
+objeciones:
+- Los bancos locales tienen mejores condiciones.
+que_lo_mueve:
+- Comparar costo total, aprobación y tiempos; libre elección.
+limite: 'Máximo acuerdo: 28% en 60 días; 35% si conversión no cae.'
+no_negociable: No condiciona venta a contratación.
+referencias:
+  ar:
+  - nombre: Panamericana
+    detalle: financiación y seguros
+    fuente: https://www.toyotapanamericana.com/landing/Sustentabilidad/TOYOTA%20PANAMERICANA_REPORTE%20DE%20SUSTENTABILIDAD%202021_V.07_12_22.pdf
+  br:
+  - nombre: Toyopar
+    detalle: financiación, seguros y Ciclo Toyota
+    fuente: https://www.toyopar.com.br/venda-diretas

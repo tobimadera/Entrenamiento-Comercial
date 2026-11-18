@@ -1,0 +1,44 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: P05
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: posventa
+dificultad: alta
+titulo:
+  es: Campañas de seguridad
+  pt: Campanhas de segurança (recall)
+consigna:
+  es: Contactar 100% de afectados y priorizar reparaciones según campaña.
+  pt: Contatar 100% dos afetados e priorizar os reparos conforme a campanha.
+contexto_visible:
+  es: Perfil defensivo. Concesionario pequeño, al 70% de su objetivo; taller saturado.
+  pt: Perfil defensivo. Concessionária pequena, em 70% da meta; oficina saturada.
+dueno:
+  nombre:
+    ar: Elena Duarte
+    br: Helena Duarte
+  edad: 57
+  genero: f
+  perfil: 'Defensivo: se siente auditado por la marca y responde justificándose antes de escuchar.'
+concesionario: Perfil defensivo. Concesionario pequeño, al 70% de su objetivo; taller saturado.
+situacion: La reunión es sobre Campañas de seguridad.
+objecion_inicial: Me ocupa boxes y no me deja facturar service.
+interes_oculto: Teme pérdida de productividad.
+objeciones:
+- Me ocupa boxes y no me deja facturar service.
+que_lo_mueve:
+- Plan de agenda, disponibilidad de piezas y escalamiento de cuellos.
+limite: 'Máximo acuerdo: Acepta iniciar contactos inmediatamente y plan diario de reparación.'
+no_negociable: No posterga acciones de seguridad por rentabilidad.
+referencias:
+  ar:
+  - nombre: Audec
+    detalle: consulta de campañas de seguridad
+    fuente: https://audec.com.ar/
+  - nombre: Amiun
+    detalle: consulta de campañas de seguridad
+    fuente: https://www.amiun.com.ar/nueva_web/campanias-servicios.html
+  br:
+  - nombre: Weiand
+    detalle: consulta de recall
+    fuente: https://www.weiandtoyota.com.br/

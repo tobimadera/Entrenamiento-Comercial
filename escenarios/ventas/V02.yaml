@@ -1,0 +1,42 @@
+# Generado por scripts/importar_excel.py desde el banco de escenarios.
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: V02
+origen: Banco de escenarios Toyota (Excel), perfil y desempeño ficticios
+foco: ventas
+dificultad: media
+titulo:
+  es: 'Corolla híbrido / Corolla Cross: electrificación'
+  pt: 'Corolla híbrido / Corolla Cross: eletrificação'
+consigna:
+  es: Capacitar vendedores y realizar 30 test drives al mes.
+  pt: Capacitar os vendedores e realizar 30 test drives por mês.
+contexto_visible:
+  es: Perfil analítico. Concesionario mediano (2 locales), al 85% de su objetivo; caja ajustada.
+  pt: Perfil analítico. Concessionária média (2 lojas), em 85% da meta; caixa apertado.
+dueno:
+  nombre:
+    ar: Paula Mendizábal
+    br: Paula Mendes
+  edad: 47
+  genero: f
+  perfil: 'Analítico: pide números y casos de negocio para todo; desconfía de las afirmaciones generales
+    y hace preguntas incómodas.'
+concesionario: Perfil analítico. Concesionario mediano (2 locales), al 85% de su objetivo; caja ajustada.
+situacion: 'La reunión es sobre Corolla híbrido / Corolla Cross: electrificación.'
+objecion_inicial: El cliente no entiende el híbrido y pide descuentos.
+interes_oculto: Teme baja conversión y costo de demostración.
+objeciones:
+- El cliente no entiende el híbrido y pide descuentos.
+que_lo_mueve:
+- Comparativa de costo total y apoyo de capacitación.
+limite: 'Máximo acuerdo: 15 test drives primer mes; 30 en segundo si hay leads.'
+no_negociable: No compra demo adicional sin caso de negocio.
+referencias:
+  ar:
+  - nombre: Ginza
+    detalle: híbridos y solicitud de test drive
+    fuente: https://ginzasa.com.ar/
+  br:
+  - nombre: Toyopar
+    detalle: ofertas de híbridos
+    fuente: https://www.toyopar.com.br/novo-ofertas

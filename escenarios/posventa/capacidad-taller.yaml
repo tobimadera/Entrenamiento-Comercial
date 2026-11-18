@@ -12,6 +12,7 @@ consigna:
 dueno:
   nombre: { ar: "Héctor Salvatierra", br: "Heitor Salvador" }
   edad: 63
+  genero: m
   perfil: >
     Vendedor de alma: para él el negocio es vender autos y el taller es un mal
     necesario. Simpático, conversador, se va por las ramas y cambia de tema cuando

@@ -126,6 +126,23 @@ EXTRA = {
 }
 
 
+# El Excel nombra a veces al mismo concesionario con la zona entre paréntesis. Para que aparezca
+# una sola vez en la pantalla se unifica el nombre y la zona pasa al detalle.
+NOMBRES = {
+    "Ginza (Rosario / Monte Maíz)": ("Ginza", "Rosario / Monte Maíz"),
+    "Toyopar (PR)": ("Toyopar", "Paraná"),
+    "Osaka (MG)": ("Osaka", "Minas Gerais"),
+    "Inter Japan (SP)": ("Inter Japan SP", ""),
+    "Terra Forte (Nova Lima)": ("Terra Forte", "Nova Lima"),
+}
+
+
+def unificar(ref: dict) -> dict:
+    nombre, zona = NOMBRES.get(ref["nombre"], (ref["nombre"], ""))
+    detalle = "; ".join(x for x in (zona, ref["detalle"]) if x)
+    return {**ref, "nombre": nombre, "detalle": detalle}
+
+
 def limpio(texto) -> str:
     return re.sub(r"\s+", " ", str(texto or "")).strip()
 
@@ -152,7 +169,7 @@ def referencias(texto: str, fuentes: str) -> list[dict]:
     salida += [{"nombre": p, "detalle": ""} for p in pendientes]
     for i, ref in enumerate(salida):
         ref["fuente"] = urls[i] if len(urls) == len(salida) else (urls[0] if urls else "")
-    return salida
+    return [unificar(r) for r in salida]
 
 
 def main(ruta_excel: str) -> None:

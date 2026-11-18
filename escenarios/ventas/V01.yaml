@@ -33,10 +33,10 @@ limite: 'Máximo acuerdo: Acepta 15% inicial; llega a 20% si rotación ≤45 dí
 no_negociable: No acepta compra obligatoria sin revisión.
 referencias:
   ar:
-  - nombre: Ginza (Rosario / Monte Maíz)
-    detalle: gama Hilux y SW4
+  - nombre: Ginza
+    detalle: Rosario / Monte Maíz; gama Hilux y SW4
     fuente: https://ginzasa.com.ar/
   br:
-  - nombre: Toyopar (PR)
-    detalle: comercializa Hilux y SW4
+  - nombre: Toyopar
+    detalle: Paraná; comercializa Hilux y SW4
     fuente: https://www.toyopar.com.br/novo-ofertas

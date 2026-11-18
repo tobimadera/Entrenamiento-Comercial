@@ -25,6 +25,12 @@
   .opciones { display: flex; gap: 8px; flex-wrap: wrap; }
   button { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); color: var(--texto); padding: 10px 16px; }
   button.activo, button.principal { background: var(--acento); color: var(--acento-texto); border-color: var(--acento); }
+  /* Banderas de país: la elegida se marca con un borde de color, sin pintar el fondo. */
+  button.bandera { padding: 6px; line-height: 0; border-width: 2px; background: var(--panel); }
+  button.bandera svg { width: 54px; height: 36px; border-radius: 4px; display: block; pointer-events: none;
+                       box-shadow: 0 0 0 1px rgba(0, 0, 0, .12); }
+  button.bandera.activo { background: var(--panel); border-color: var(--acento); box-shadow: 0 0 0 2px var(--acento); }
+  button.bandera:not(.activo) svg { opacity: .55; }
   button:disabled { opacity: .5; cursor: default; }
   input, textarea { font: inherit; width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); color: var(--texto); }
   .escenario { display: block; width: 100%; text-align: left; margin-bottom: 8px; }
@@ -42,6 +48,11 @@
   #redactar textarea { resize: none; height: 72px; }
   .error { color: var(--mal); margin-top: 8px; }
   .nota { color: var(--suave); font-size: .85rem; margin: 8px 0 0; }
+  .elegir { display: flex; gap: 8px; flex-wrap: wrap; }
+  .elegir select { flex: 1 1 240px; font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--borde);
+                   background: var(--panel); color: var(--texto); }
+  .objetivo { margin-top: 16px; padding: 12px 16px; border-left: 4px solid var(--acento); border-radius: 8px; background: var(--otro); }
+  .objetivo p { margin: 4px 0 0; }
   #avatar { position: relative; margin: 0 auto 12px; width: 100%; max-width: 420px; aspect-ratio: 1 / 1;
             border-radius: 12px; overflow: hidden; background: var(--otro); }
   #avatar video { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -84,8 +95,21 @@
     <div class="panel">
       <h2 style="margin-top:0" data-t="pais"></h2>
       <div class="opciones" id="paises">
-        <button data-pais="ar">Argentina · Español</button>
-        <button data-pais="br">Brasil · Português</button>
+        <button class="bandera" data-pais="ar" aria-label="Argentina" title="Argentina">
+          <svg viewBox="0 0 60 40" aria-hidden="true">
+            <rect width="60" height="40" fill="#74ACDF"/>
+            <rect y="13.33" width="60" height="13.34" fill="#FFFFFF"/>
+            <circle cx="30" cy="20" r="4.6" fill="#F6B40E" stroke="#85340A" stroke-width="0.6"/>
+          </svg>
+        </button>
+        <button class="bandera" data-pais="br" aria-label="Brasil" title="Brasil">
+          <svg viewBox="0 0 60 40" aria-hidden="true">
+            <rect width="60" height="40" fill="#009C3B"/>
+            <polygon points="30,4 56,20 30,36 4,20" fill="#FFDF00"/>
+            <circle cx="30" cy="20" r="8.5" fill="#002776"/>
+            <path d="M21.8 18.2 Q30 15.6 38.4 21.6" fill="none" stroke="#FFFFFF" stroke-width="1.6"/>
+          </svg>
+        </button>
       </div>
       <h2 data-t="foco"></h2>
       <div class="opciones" id="focos">
@@ -93,12 +117,16 @@
         <button data-foco="posventa" data-t="posventa"></button>
         <button data-foco="especiales" data-t="especiales"></button>
       </div>
-      <h2 data-t="escenario"></h2>
-      <div id="escenarios"></div>
-      <div id="bloqueReferencia" hidden>
-        <h2 data-t="concesionario"></h2>
-        <div class="opciones" id="referencias"></div>
-        <p class="nota" data-t="notaReferencia"></p>
+      <h2 data-t="concesionario"></h2>
+      <div class="elegir">
+        <select id="concesionarios" aria-label="Concesionario"></select>
+        <button id="confirmar" data-t="confirmar" disabled></button>
+      </div>
+      <p class="nota" data-t="notaReferencia"></p>
+      <div class="objetivo" id="objetivo" hidden>
+        <div class="etiqueta" data-t="tuObjetivo"></div>
+        <p id="objetivoTexto"></p>
+        <p class="nota" id="objetivoContexto"></p>
       </div>
       <div id="bloqueNombre">
         <h2 data-t="tuNombre"></h2>
@@ -149,14 +177,15 @@
 const TEXTOS = {
   es: {
     titulo: "Entrenador de Ventas", subtitulo: "Practicá una reunión con el dueño de un concesionario y recibí una devolución.",
-    pais: "País e idioma", foco: "Foco de entrenamiento", ventas: "Ventas", posventa: "Posventa",
+    pais: "País", foco: "Foco de entrenamiento", ventas: "Ventas", posventa: "Posventa",
     escenario: "Escenario", tuNombre: "Tu nombre (opcional)", empezar: "Empezar la reunión",
     reunionCon: "Reunión con", terminar: "Terminar y evaluar", enviar: "Enviar", vos: "Vos",
     objetivo: "Tu objetivo: ", escribi: "Escribí lo que le dirías…", evaluando: "Evaluando la conversación…",
     devolucion: "Devolución", otra: "Practicar otra vez", resultado: "Resultado", criterios: "Criterios",
     fortalezas: "Fortalezas", mejoras: "A mejorar", momentos: "Momentos clave", dijiste: "Dijiste",
     alternativa: "Alternativa", dificultad: "Dificultad", corta: "Conversá un poco más antes de pedir la evaluación.",
-    especiales: "Ventas especiales", concesionario: "Concesionario a imitar", generico: "Genérico",
+    especiales: "Ventas especiales", concesionario: "Concesionario", generico: "Concesionario genérico",
+    elegiConcesionario: "Elegí un concesionario…", confirmar: "Confirmar", tuObjetivo: "Tu objetivo",
     genericoDetalle: "sin concesionario de referencia",
     notaReferencia: "Concesionarios reales de la red, tomados como referencia comercial. La personalidad, los números y los problemas del dueño son ficticios.",
     contexto: "Lo que sabés del dueño: ",
@@ -168,14 +197,15 @@ const TEXTOS = {
   },
   pt: {
     titulo: "Treinador de Vendas", subtitulo: "Pratique uma reunião com o dono de uma concessionária e receba um feedback.",
-    pais: "País e idioma", foco: "Foco do treinamento", ventas: "Vendas", posventa: "Pós-venda",
+    pais: "País", foco: "Foco do treinamento", ventas: "Vendas", posventa: "Pós-venda",
     escenario: "Cenário", tuNombre: "Seu nome (opcional)", empezar: "Começar a reunião",
     reunionCon: "Reunião com", terminar: "Encerrar e avaliar", enviar: "Enviar", vos: "Você",
     objetivo: "Seu objetivo: ", escribi: "Escreva o que você diria…", evaluando: "Avaliando a conversa…",
     devolucion: "Feedback", otra: "Praticar de novo", resultado: "Resultado", criterios: "Critérios",
     fortalezas: "Pontos fortes", mejoras: "A melhorar", momentos: "Momentos-chave", dijiste: "Você disse",
     alternativa: "Alternativa", dificultad: "Dificuldade", corta: "Converse um pouco mais antes de pedir a avaliação.",
-    especiales: "Vendas especiais", concesionario: "Concessionária a imitar", generico: "Genérica",
+    especiales: "Vendas especiais", concesionario: "Concessionária", generico: "Concessionária genérica",
+    elegiConcesionario: "Escolha uma concessionária…", confirmar: "Confirmar", tuObjetivo: "Seu objetivo",
     genericoDetalle: "sem concessionária de referência",
     notaReferencia: "Concessionárias reais da rede, usadas como referência comercial. A personalidade, os números e os problemas do dono são fictícios.",
     contexto: "O que você sabe do dono: ",
@@ -206,35 +236,56 @@ function pintar() {
   document.querySelectorAll("[data-pais]").forEach((b) => b.classList.toggle("activo", b.dataset.pais === estado.pais));
   document.querySelectorAll("[data-foco]").forEach((b) => b.classList.toggle("activo", b.dataset.foco === estado.foco));
   $("texto").placeholder = t("escribi");
-  const lista = $("escenarios");
-  lista.replaceChildren();
-  for (const esc of estado.escenarios.filter((e) => e.foco === estado.foco)) {
-    const b = crear("button", "escenario" + (esc.id === estado.escenario ? " activo" : ""));
-    b.append(crear("span", "", esc.titulo[idioma()]),
-             crear("small", "", `${t("dificultad")}: ${esc.dificultad} · ${esc.consigna[idioma()]}`));
-    b.onclick = () => { estado.escenario = esc.id; estado.referencia = null; pintar(); };
-    lista.append(b);
-  }
-  pintarReferencias();
+  pintarConcesionarios();
   $("empezar").disabled = !estado.escenario;
   if (estado.consultor) $("quienPractica").textContent = `${t("practicasComo")} ${estado.consultor.nombre}`;
   pintarVoz();
 }
 
-// Concesionarios reales del país elegido que el escenario trae como referencia.
-function pintarReferencias() {
+// El consultor elige solo el concesionario. Al confirmar, el escenario sale al azar entre los
+// casos de ese concesionario en el país y el foco elegidos, y recién ahí ve su objetivo.
+// «Concesionario genérico» agrupa los escenarios que no tienen concesionario de referencia.
+const GENERICO = "__generico";
+const refsDe = (esc) => (esc.referencias && esc.referencias[estado.pais]) || [];
+function casosDe(valor) {
+  return estado.escenarios.filter((e) => e.foco === estado.foco &&
+    (valor === GENERICO ? !refsDe(e).length : refsDe(e).some((r) => r.nombre === valor)));
+}
+
+function pintarConcesionarios() {
+  const nombres = [...new Set(estado.escenarios.filter((e) => e.foco === estado.foco)
+    .flatMap((e) => refsDe(e).map((r) => r.nombre)))].sort((a, b) => a.localeCompare(b));
+  const opciones = [new Option(t("elegiConcesionario"), ""), ...nombres.map((n) => new Option(n, n))];
+  if (casosDe(GENERICO).length) opciones.push(new Option(t("generico"), GENERICO));
+  opciones[0].disabled = true;
+  const sel = $("concesionarios");
+  sel.replaceChildren(...opciones);
+  const elegida = opciones.findIndex((o) => o.value && o.value === estado.concesionario);
+  if (elegida < 0) estado.concesionario = "";
+  sel.selectedIndex = Math.max(elegida, 0);
+  // Una vez confirmado no se vuelve a sortear: para otro caso hay que cambiar el concesionario.
+  $("confirmar").disabled = !estado.concesionario || !!estado.escenario;
   const esc = estado.escenarios.find((e) => e.id === estado.escenario);
-  const refs = (esc && esc.referencias && esc.referencias[estado.pais]) || [];
-  $("bloqueReferencia").hidden = !refs.length;
-  const opcion = (indice, nombre, detalle) => {
-    const b = crear("button", estado.referencia === indice ? "activo" : "");
-    b.append(crear("span", "", nombre), crear("small", "", detalle));
-    b.onclick = () => { estado.referencia = indice; pintarReferencias(); };
-    return b;
-  };
-  $("referencias").replaceChildren(
-    ...refs.map((r, i) => opcion(i, r.nombre, r.detalle)),
-    opcion(null, t("generico"), t("genericoDetalle")));
+  $("objetivo").hidden = !esc;
+  if (esc) {
+    $("objetivoTexto").textContent = `${esc.titulo[idioma()]}: ${esc.consigna[idioma()]}`;
+    $("objetivoContexto").textContent = esc.contexto ? t("contexto") + esc.contexto[idioma()] : "";
+  }
+}
+
+function confirmar() {
+  const casos = casosDe(estado.concesionario);
+  if (!casos.length) return;
+  const esc = casos[Math.floor(Math.random() * casos.length)];
+  const indice = refsDe(esc).findIndex((r) => r.nombre === estado.concesionario);
+  estado.escenario = esc.id;
+  estado.referencia = indice >= 0 ? indice : null;
+  pintar();
+}
+
+function reiniciarEleccion() {
+  estado.escenario = null;
+  estado.referencia = null;
 }
 
 function pintarVoz() {
@@ -607,8 +658,10 @@ function pintarDevolucion(ev) {
   }
 }
 
-$("paises").onclick = (e) => { if (e.target.dataset.pais) { estado.pais = e.target.dataset.pais; estado.paisElegido = true; estado.referencia = null; pintar(); } };
-$("focos").onclick = (e) => { if (e.target.dataset.foco) { estado.foco = e.target.dataset.foco; estado.escenario = null; pintar(); } };
+$("paises").onclick = (e) => { const b = e.target.closest("[data-pais]"); if (b) { estado.pais = b.dataset.pais; estado.paisElegido = true; estado.concesionario = ""; reiniciarEleccion(); pintar(); } };
+$("focos").onclick = (e) => { if (e.target.dataset.foco) { estado.foco = e.target.dataset.foco; estado.concesionario = ""; reiniciarEleccion(); pintar(); } };
+$("concesionarios").onchange = (e) => { estado.concesionario = e.target.value; reiniciarEleccion(); pintar(); };
+$("confirmar").onclick = confirmar;
 $("empezar").onclick = empezar;
 $("enviar").onclick = enviar;
 $("terminar").onclick = terminar;
@@ -620,7 +673,7 @@ $("vozActiva").onclick = () => {
   if (estado.vozActiva && estado.sesion && !$("chat").hidden) asegurarAvatar();
   pintarVoz();
 };
-$("otra").onclick = () => { callar(); cerrarAvatar(); estado.escenario = null; pintar(); mostrar("inicio"); };
+$("otra").onclick = () => { callar(); cerrarAvatar(); estado.concesionario = ""; reiniciarEleccion(); pintar(); mostrar("inicio"); };
 window.addEventListener("pagehide", cerrarAvatar);
 $("texto").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); enviar(); } });
 

@@ -91,6 +91,11 @@ En `/gestor` (por ejemplo, http://localhost:8010/gestor) el gestor ve:
 - **Códigos de acceso**: crea un código personal por consultor, genera uno nuevo si lo pierde
   o lo desactiva. Con su código, cada práctica queda a su nombre.
 
+Arriba del panel, el filtro **Complejidad de las prácticas** (Todas, Media, Alta) recalcula
+todo con las prácticas de ese nivel, para comparar consultores en igualdad de condiciones. El
+nivel de cada escenario es el campo `dificultad` de su ficha, y el consultor lo elige al
+empezar: solo ve los concesionarios que tienen escenarios de ese nivel.
+
 Se entra con `CODIGO_GESTOR`. Los consultores y sus códigos se guardan en
 `<DATOS_DIR>/consultores.json`, fuera del repositorio. Solo cuenta como entrenamiento una
 práctica donde el consultor habló al menos una vez.

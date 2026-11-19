@@ -41,7 +41,20 @@ def progreso(puntajes: list[int]) -> float | None:
     return round(mean(puntajes[-k:]) - mean(puntajes[:k]), 1)
 
 
-def resumen(sesiones: list[dict], lista_consultores: list[dict]) -> dict:
+NIVELES = ["baja", "media", "alta"]
+
+
+def dificultad_de(sesion: dict) -> str:
+    return (sesion.get("ficha") or {}).get("dificultad", "")
+
+
+def resumen(sesiones: list[dict], lista_consultores: list[dict], dificultad: str | None = None) -> dict:
+    """Con `dificultad`, todos los números salen solo de las prácticas de ese nivel: así se
+    compara a los consultores entre conversaciones de la misma exigencia."""
+    existentes = {dificultad_de(s) for s in sesiones} | {f.get("dificultad", "") for f in simulador.cargar_escenarios().values()}
+    dificultades = [n for n in NIVELES if n in existentes]
+    if dificultad:
+        sesiones = [s for s in sesiones if dificultad_de(s) == dificultad]
     filas = []
     for s in sesiones:
         n = turnos(s)
@@ -55,6 +68,7 @@ def resumen(sesiones: list[dict], lista_consultores: list[dict]) -> dict:
             "fecha": s.get("inicio", ""),
             "escenario": ficha.get("titulo", {}).get("es", s.get("escenario_id", "")),
             "referencia": (s.get("referencia") or {}).get("nombre", ""),
+            "dificultad": ficha.get("dificultad", ""),
             "foco": ficha.get("foco", ""),
             "pais": s.get("pais", ""),
             "por_voz": bool(s.get("por_voz")),
@@ -89,7 +103,8 @@ def resumen(sesiones: list[dict], lista_consultores: list[dict]) -> dict:
 
     orden = sorted(personas.values(), key=lambda p: (not p["con_codigo"], -p["entrenamientos"], p["nombre"]))
     criterios, objetivo = simulador.todos_los_criterios()
-    return {"consultores": orden, "sesiones": filas, "criterios": criterios, "objetivo": objetivo}
+    return {"consultores": orden, "sesiones": filas, "criterios": criterios, "objetivo": objetivo,
+            "dificultades": dificultades, "dificultad": dificultad}
 
 
 MAX_PRACTICAS_MEJORAS = 8

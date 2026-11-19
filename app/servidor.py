@@ -314,8 +314,10 @@ def evaluacion(sesion_id: str, request: Request):
 
 # ---------------------------------------------------------------- panel del gestor
 @app.get("/api/gestor/resumen")
-def gestor_resumen():
-    return informes.resumen(informes.leer_sesiones(CARPETA_SESIONES), consultores.listar())
+def gestor_resumen(dificultad: str | None = None):
+    if dificultad and dificultad not in informes.NIVELES:
+        raise HTTPException(400, "Complejidad inválida.")
+    return informes.resumen(informes.leer_sesiones(CARPETA_SESIONES), consultores.listar(), dificultad or None)
 
 
 @app.get("/api/gestor/sesiones/{sesion_id}")

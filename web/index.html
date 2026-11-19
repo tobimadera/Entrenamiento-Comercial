@@ -48,6 +48,17 @@
   #redactar textarea { resize: none; height: 72px; }
   .error { color: var(--mal); margin-top: 8px; }
   .nota { color: var(--suave); font-size: .85rem; margin: 8px 0 0; }
+  /* Barra de complejidad: cuanto más a la derecha, más difícil el escenario. */
+  .deslizador { max-width: 420px; }
+  .deslizador input[type=range] { width: 100%; margin: 4px 0 0; accent-color: var(--acento); cursor: pointer;
+    height: 8px; border-radius: 4px; appearance: none; -webkit-appearance: none;
+    background: linear-gradient(to right, #1b7a43, #eda100, #b3261e); }
+  .deslizador input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+    background: var(--panel); border: 3px solid var(--acento); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+  .deslizador input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%;
+    background: var(--panel); border: 3px solid var(--acento); }
+  .marcas { display: flex; justify-content: space-between; margin-top: 6px; color: var(--suave); font-size: .85rem; }
+  .marcas span.activo { color: var(--texto); font-weight: 600; }
   .elegir { display: flex; gap: 8px; flex-wrap: wrap; }
   .elegir select { flex: 1 1 240px; font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--borde);
                    background: var(--panel); color: var(--texto); }
@@ -116,6 +127,11 @@
         <button data-foco="ventas" data-t="ventas"></button>
         <button data-foco="posventa" data-t="posventa"></button>
         <button data-foco="especiales" data-t="especiales"></button>
+      </div>
+      <h2><span data-t="complejidad"></span>: <span id="nivelActual"></span></h2>
+      <div class="deslizador">
+        <input type="range" id="nivel" min="0" max="2" step="1" value="1">
+        <div class="marcas" id="marcasNivel"></div>
       </div>
       <h2 data-t="concesionario"></h2>
       <div class="elegir">
@@ -186,6 +202,7 @@ const TEXTOS = {
     alternativa: "Alternativa", dificultad: "Dificultad", corta: "Conversá un poco más antes de pedir la evaluación.",
     especiales: "Ventas especiales", concesionario: "Concesionario", generico: "Concesionario genérico",
     elegiConcesionario: "Elegí un concesionario…", confirmar: "Confirmar", tuObjetivo: "Tu objetivo",
+    complejidad: "Complejidad", baja: "Baja", media: "Media", alta: "Alta",
     genericoDetalle: "sin concesionario de referencia",
     notaReferencia: "Concesionarios reales de la red, tomados como referencia comercial. La personalidad, los números y los problemas del dueño son ficticios.",
     contexto: "Lo que sabés del dueño: ",
@@ -206,6 +223,7 @@ const TEXTOS = {
     alternativa: "Alternativa", dificultad: "Dificuldade", corta: "Converse um pouco mais antes de pedir a avaliação.",
     especiales: "Vendas especiais", concesionario: "Concessionária", generico: "Concessionária genérica",
     elegiConcesionario: "Escolha uma concessionária…", confirmar: "Confirmar", tuObjetivo: "Seu objetivo",
+    complejidad: "Complexidade", baja: "Baixa", media: "Média", alta: "Alta",
     genericoDetalle: "sem concessionária de referência",
     notaReferencia: "Concessionárias reais da rede, usadas como referência comercial. A personalidade, os números e os problemas do dono são fictícios.",
     contexto: "O que você sabe do dono: ",
@@ -217,7 +235,7 @@ const TEXTOS = {
   },
 };
 const $ = (id) => document.getElementById(id);
-const estado = { pais: "ar", foco: "ventas", escenario: null, escenarios: [], sesion: null, dueno: "", ocupado: false,
+const estado = { pais: "ar", foco: "ventas", dificultad: "media", escenario: null, escenarios: [], sesion: null, dueno: "", ocupado: false,
                  voz: false, vozActiva: true, turno: 0 };
 let grabador = null, audioActual = null;
 const idioma = () => (estado.pais === "br" ? "pt" : "es");
@@ -247,14 +265,33 @@ function pintar() {
 // «Concesionario genérico» agrupa los escenarios que no tienen concesionario de referencia.
 const GENERICO = "__generico";
 const refsDe = (esc) => (esc.referencias && esc.referencias[estado.pais]) || [];
+// Escenarios del foco y la complejidad elegidos: de ahí salen los concesionarios disponibles.
+const delNivel = () => estado.escenarios.filter((e) => e.foco === estado.foco && e.dificultad === estado.dificultad);
 function casosDe(valor) {
-  return estado.escenarios.filter((e) => e.foco === estado.foco &&
-    (valor === GENERICO ? !refsDe(e).length : refsDe(e).some((r) => r.nombre === valor)));
+  return delNivel().filter((e) =>
+    valor === GENERICO ? !refsDe(e).length : refsDe(e).some((r) => r.nombre === valor));
+}
+
+// La barra recorre solo los niveles que tienen escenarios en el foco elegido, de menor a mayor.
+const NIVELES = ["baja", "media", "alta"];
+const nivelesDisponibles = () =>
+  NIVELES.filter((n) => estado.escenarios.some((e) => e.foco === estado.foco && e.dificultad === n));
+function pintarDificultades() {
+  const disponibles = nivelesDisponibles();
+  if (!disponibles.includes(estado.dificultad)) estado.dificultad = disponibles[0] || "media";
+  const barra = $("nivel"), posicion = disponibles.indexOf(estado.dificultad);
+  barra.max = Math.max(disponibles.length - 1, 0);
+  barra.value = Math.max(posicion, 0);
+  barra.disabled = disponibles.length < 2;
+  barra.setAttribute("aria-valuetext", t(estado.dificultad));
+  $("nivelActual").textContent = t(estado.dificultad);
+  $("marcasNivel").replaceChildren(...disponibles.map((n) => crear("span", n === estado.dificultad ? "activo" : "", t(n))));
 }
 
 function pintarConcesionarios() {
-  const nombres = [...new Set(estado.escenarios.filter((e) => e.foco === estado.foco)
-    .flatMap((e) => refsDe(e).map((r) => r.nombre)))].sort((a, b) => a.localeCompare(b));
+  pintarDificultades();
+  const nombres = [...new Set(delNivel().flatMap((e) => refsDe(e).map((r) => r.nombre)))]
+    .sort((a, b) => a.localeCompare(b));
   const opciones = [new Option(t("elegiConcesionario"), ""), ...nombres.map((n) => new Option(n, n))];
   if (casosDe(GENERICO).length) opciones.push(new Option(t("generico"), GENERICO));
   opciones[0].disabled = true;
@@ -660,6 +697,10 @@ function pintarDevolucion(ev) {
 
 $("paises").onclick = (e) => { const b = e.target.closest("[data-pais]"); if (b) { estado.pais = b.dataset.pais; estado.paisElegido = true; estado.concesionario = ""; reiniciarEleccion(); pintar(); } };
 $("focos").onclick = (e) => { if (e.target.dataset.foco) { estado.foco = e.target.dataset.foco; estado.concesionario = ""; reiniciarEleccion(); pintar(); } };
+$("nivel").oninput = (e) => {
+  const n = nivelesDisponibles()[Number(e.target.value)];
+  if (n && n !== estado.dificultad) { estado.dificultad = n; estado.concesionario = ""; reiniciarEleccion(); pintar(); }
+};
 $("concesionarios").onchange = (e) => { estado.concesionario = e.target.value; reiniciarEleccion(); pintar(); };
 $("confirmar").onclick = confirmar;
 $("empezar").onclick = empezar;

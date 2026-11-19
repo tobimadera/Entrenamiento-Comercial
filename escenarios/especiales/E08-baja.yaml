@@ -1,0 +1,53 @@
+# Escenario cargado a mano (no viene del Excel: scripts/importar_excel.py no lo pisa).
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: E08
+origen: Caso de complejidad baja escrito para completar el banco; perfil y desempeño ficticios
+foco: especiales
+dificultad: baja
+titulo:
+  es: Primera venta directa a una pyme
+  pt: Primeira venda direta para uma pequena empresa
+consigna:
+  es: Conseguí que el dueño acepte cotizar por venta directa 5 Hilux para una pyme de su zona y designe un responsable para la operación.
+  pt: Consiga que o dono aceite cotar por venda direta 5 Hilux para uma pequena empresa da região e designe um responsável pela operação.
+contexto_visible:
+  es: Perfil abierto. Concesionario mediano, al 98% de su objetivo minorista; nunca hizo una venta directa.
+  pt: Perfil aberto. Concessionária média, em 98% da meta de varejo; nunca fez uma venda direta.
+dueno:
+  nombre:
+    ar: Martín Echeverría
+    br: Martim Echeverria
+  edad: 45
+  genero: m
+  perfil: >-
+    Abierto y curioso: le interesa sumar negocios nuevos, pero no conoce el circuito de ventas
+    especiales y no quiere equivocarse con un cliente de su zona.
+concesionario: >-
+  Concesionario mediano, al 98% de su objetivo minorista. Una empresa de servicios de su zona
+  le pidió precio por 5 Hilux y él nunca hizo una operación por venta directa.
+situacion: >-
+  La reunión es sobre canalizar ese pedido por ventas especiales en lugar de venderlo como
+  cinco operaciones minoristas con descuento.
+objecion_inicial: >-
+  Me interesa, pero nunca hice una venta directa: no sé qué papeles hacen falta ni cuánto tarda.
+interes_oculto: >-
+  Teme quedar mal con un cliente de su zona por no conocer el proceso.
+objeciones:
+  - Nunca hice una venta directa; no sé qué papeles hacen falta ni cuánto tarda.
+  - ¿Gano lo mismo que vendiéndolas como minorista?
+que_lo_mueve:
+  - Un paso a paso simple de la operación y un contacto de la marca que lo acompañe la primera vez.
+  - Ver con números que la venta directa le deja un margen comparable sin poner capital de trabajo.
+  - Que el cliente quede registrado como flotillero para futuras compras y para el service.
+limite: >-
+  Máximo acuerdo: cotizar las 5 Hilux por venta directa esta semana y designar a un vendedor
+  como responsable de ventas especiales. Acepta si le explican el proceso con claridad.
+referencias:
+  ar:
+    - nombre: Alem Motors
+      detalle: flota y ventas especiales
+      fuente: https://www.alemmotors.com.ar/FlotayVentasEspeciales
+  br:
+    - nombre: Toyopar
+      detalle: venta directa a productor rural y flotas
+      fuente: https://www.toyopar.com.br/venda-diretas

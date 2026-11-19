@@ -78,6 +78,16 @@ def instrucciones_personaje(ficha: dict, pais: str, hablado: bool = False, refer
     dueno = ficha["dueno"]
     lista = lambda items: "\n".join(f"- {i}" for i in items)
     genero = "dueña" if dueno.get("genero") == "f" else "dueño"
+    # El consultor elige la complejidad: cambia cuánto resiste el dueño ante una buena propuesta.
+    exigencia = {
+        "baja": "Esta práctica es de complejidad baja: sos receptivo. Tus objeciones son dudas para "
+                "despejar, no resistencia; si el representante responde con algo razonable y concreto, "
+                "aceptás sin volver sobre lo ya resuelto.",
+        "media": "Esta práctica es de complejidad media: cedés de a poco, cuando la propuesta atiende "
+                 "tus objeciones con argumentos y datos.",
+        "alta": "Esta práctica es de complejidad alta: sos exigente. Sostenés tus objeciones, ponés a "
+                "prueba los números y solo cedés ante evidencia sólida y compromisos verificables.",
+    }.get(ficha.get("dificultad", ""), "")
 
     if referencia:
         detalle = f" ({referencia['detalle']})" if referencia.get("detalle") else ""
@@ -144,6 +154,7 @@ números de tu negocio, abrite de a poco. Si recita un discurso, presiona, amena
 endurecete o desviá el tema. Si inventa datos de tu concesionario que no coinciden con tu situación, \
 corregilo como lo haría alguien que conoce su negocio. Cedé en parte cuando la propuesta atiende lo que \
 de verdad te preocupa con evidencia y compromisos verificables.
+{exigencia}
 
 # Hasta dónde llegás
 {ficha['limite']}

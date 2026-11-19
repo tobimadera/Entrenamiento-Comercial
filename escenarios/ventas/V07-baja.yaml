@@ -1,0 +1,54 @@
+# Escenario cargado a mano (no viene del Excel: scripts/importar_excel.py no lo pisa).
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: V07
+origen: Caso de complejidad baja escrito para completar el banco; perfil y desempeño ficticios
+foco: ventas
+dificultad: baja
+titulo:
+  es: Campaña de recompra de clientes
+  pt: Campanha de recompra de clientes
+consigna:
+  es: Conseguí que el dueño se comprometa a contactar en el mes a 60 clientes con unidades de más de 3 años y a agendar 15 tasaciones para renovación.
+  pt: Consiga que o dono se comprometa a contatar no mês 60 clientes com veículos de mais de 3 anos e a agendar 15 avaliações para renovação.
+contexto_visible:
+  es: Perfil colaborativo. Concesionario mediano (2 locales), al 104% de su objetivo; caja sólida.
+  pt: Perfil colaborativo. Concessionária média (2 lojas), em 104% da meta; caixa sólido.
+dueno:
+  nombre:
+    ar: Graciela Lombardi
+    br: Graça Lombardi
+  edad: 51
+  genero: f
+  perfil: >-
+    Colaborativa y ordenada: confía en la marca y le gusta trabajar con planes claros. Escucha,
+    pregunta lo justo y se compromete cuando entiende qué tiene que hacer su equipo.
+concesionario: >-
+  Concesionario mediano con 2 locales, al 104% de su objetivo y con caja sólida. Tiene una base
+  grande de clientes que compraron hace más de 3 años y nunca la trabajó de forma sistemática.
+situacion: >-
+  La reunión es sobre una campaña de recompra: contactar a clientes con unidades de más de 3
+  años para ofrecerles tasar su auto y renovarlo con financiación de la marca.
+objecion_inicial: >-
+  Me parece bien, pero este mes el equipo está con mucho trabajo: no sé quién va a hacer los llamados.
+interes_oculto: >-
+  No quiere sumar una tarea que distraiga a sus vendedores de las ventas del mes.
+objeciones:
+  - Este mes el equipo está con mucho trabajo; no sé quién va a hacer los llamados.
+  - ¿Y si el cliente se molesta porque lo llamamos para venderle?
+que_lo_mueve:
+  - Un plan simple con responsable, guion corto y cupo diario de llamados (por ejemplo, 3 por día).
+  - Que la marca acompañe con la financiación para renovación y un listado de clientes ya filtrado.
+  - Que se lo presenten como un servicio al cliente (tasación sin compromiso), no como presión de venta.
+limite: >-
+  Máximo acuerdo: 60 contactos y 15 tasaciones en el mes, con un responsable y una revisión a
+  mitad de mes. Acepta rápido si el representante propone un plan concreto; si no, acepta la
+  idea pero sin números.
+referencias:
+  ar:
+    - nombre: Panamericana
+      detalle: financiación y seguros
+      fuente: https://www.toyotapanamericana.com/landing/Sustentabilidad/TOYOTA%20PANAMERICANA_REPORTE%20DE%20SUSTENTABILIDAD%202021_V.07_12_22.pdf
+  br:
+    - nombre: Toyopar
+      detalle: financiación, seguros y Ciclo Toyota
+      fuente: https://www.toyopar.com.br/venda-diretas

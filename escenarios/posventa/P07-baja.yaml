@@ -1,0 +1,53 @@
+# Escenario cargado a mano (no viene del Excel: scripts/importar_excel.py no lo pisa).
+# Referencias comerciales públicas; perfil, desempeño y cifras son ficticios.
+id: P07
+origen: Caso de complejidad baja escrito para completar el banco; perfil y desempeño ficticios
+foco: posventa
+dificultad: baja
+titulo:
+  es: Recordatorio de service vencido
+  pt: Lembrete de revisão vencida
+consigna:
+  es: Conseguí que el dueño se comprometa a contactar a los clientes con service vencido y a agendar 40 turnos de mantenimiento en el mes.
+  pt: Consiga que o dono se comprometa a contatar os clientes com revisão vencida e a agendar 40 serviços de manutenção no mês.
+contexto_visible:
+  es: Perfil pragmático. Concesionario mediano, al 96% de su objetivo de servicios; el taller tiene horas libres.
+  pt: Perfil pragmático. Concessionária média, em 96% da meta de serviços; a oficina tem horas livres.
+dueno:
+  nombre:
+    ar: Daniel Ferreyra
+    br: Daniel Ferreira
+  edad: 48
+  genero: m
+  perfil: >-
+    Pragmático y de buen trato: si ve que algo le llena el taller sin complicarle la vida, lo
+    hace. Va al grano y quiere saber quién hace qué.
+concesionario: >-
+  Concesionario mediano, al 96% de su objetivo de servicios. El taller tiene horas libres
+  entre semana y hay unos 300 clientes con el service vencido hace más de 3 meses.
+situacion: >-
+  La reunión es sobre una campaña para recuperar a los clientes con mantenimiento vencido,
+  aprovechando la cobertura Toyota 10 para quienes hacen los services en la red.
+objecion_inicial: >-
+  Me sirve llenar el taller, pero no tengo una persona dedicada a llamar clientes.
+interes_oculto: >-
+  Quiere aprovechar las horas libres del taller sin sumar costo fijo.
+objeciones:
+  - No tengo una persona dedicada a llamar clientes.
+  - Muchos de esos clientes ya se fueron a un taller de barrio.
+que_lo_mueve:
+  - Que los recordatorios se puedan mandar por mensaje con un enlace para sacar turno, sin llamar uno por uno.
+  - Que le recuerden que mantener los services en la red es lo que conserva la cobertura Toyota 10 del cliente.
+  - Que le propongan medir el resultado al final del mes y ajustar.
+limite: >-
+  Máximo acuerdo: contactar a los 300 clientes y agendar 40 turnos en el mes, con un
+  responsable de recepción. Acepta enseguida si el plan no le suma personal.
+referencias:
+  ar:
+    - nombre: Milanesio
+      detalle: Toyota 10 publicado
+      fuente: https://www.toyotamilanesio.com.ar/servicios/garantia-toyota
+  br:
+    - nombre: Toyopar
+      detalle: agenda y servicios express
+      fuente: https://www.toyopar.com.br/

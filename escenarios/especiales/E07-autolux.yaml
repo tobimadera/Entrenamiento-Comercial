@@ -1,0 +1,78 @@
+# Escenario cargado a mano (no viene del Excel: scripts/importar_excel.py no lo pisa).
+# Desempeño y cifras del dueño ficticios, para entrenamiento.
+id: E07
+origen: Caso cargado por el gestor, desempeño ficticio
+foco: especiales
+dificultad: alta
+titulo:
+  es: Cumplimiento de objetivos de ventas especiales
+  pt: Cumprimento das metas de vendas especiais
+consigna:
+  es: Conseguí que el dueño reconozca los desvíos en su desempeño comercial y se comprometa a implementar un plan de acción para recuperar el volumen de ventas.
+  pt: Consiga que o dono reconheça os desvios no seu desempenho comercial e se comprometa a implementar um plano de ação para recuperar o volume de vendas.
+contexto_visible:
+  es: Concesionario mediano con 2 sucursales en el Norte, al 13% de su objetivo anual de ventas; acumula desvíos negativos y no desarrolla el canal corporativo.
+  pt: Concessionária média com 2 lojas no Norte, em 13% da meta anual de vendas; acumula desvios negativos e não desenvolve o canal corporativo.
+dueno:
+  nombre:
+    ar: Sergio Aráoz
+    br: Sérgio Araújo
+  edad: 57
+  genero: m
+  perfil: >-
+    Tiene años en el negocio automotor y conoce bien el mercado de su zona; lo hace valer.
+    Se niega a desarrollar el canal corporativo (ventas especiales): lo ve como vender con
+    descuento y perder margen. Discute con argumentos y no acepta números que no entiende.
+concesionario: >-
+  Concesionario mediano con 2 sucursales en el Norte. Está al 13% de su objetivo anual de
+  ventas y acumula desvíos negativos respecto de los objetivos que fija la marca.
+situacion: >-
+  La reunión es sobre el cumplimiento de los objetivos de ventas especiales (flotas y venta
+  corporativa directa). Hoy casi no canaliza operaciones por ese canal.
+objecion_inicial: >-
+  Los objetivos que arma Toyota son irreales: no contemplan el mercado ni la situación de mi
+  concesionario.
+interes_oculto: >-
+  Teme crecer en volumen resignando rentabilidad, y siente que con los descuentos de las
+  otras marcas no puede competir por precio.
+objeciones:
+  - >-
+    Objetivos poco realistas: son demasiado exigentes, no contemplan la realidad del mercado
+    ni la situación comercial del concesionario, y son difíciles de alcanzar en este contexto.
+  - >-
+    Baja rentabilidad: los márgenes están cada vez más ajustados y no va a aumentar el
+    volumen a costa de resignar rentabilidad; cumplir objetivos no puede implicar sacrificarla.
+  - >-
+    Competencia agresiva: otras marcas ofrecen mejores condiciones en descuentos y
+    financiación, lo que lo deja en desventaja para captar clientes y cumplir los objetivos.
+que_lo_mueve:
+  - >-
+    Que le expliquen con qué criterio se arma su plan de negocios y, sobre todo, que más allá
+    del número del plan hay parámetros de participación de mercado que debe mantener: aun
+    contra un plan "ideal" calculado sobre el mercado real (no sobre el objetivo de Toyota),
+    su desempeño sigue por debajo.
+  - >-
+    Que le muestren, con el calculador de rentabilidad (simulador hecho con IA), cuánto deja
+    vender una unidad con descuento frente a venderla por venta directa, y cómo puede llegar
+    al mismo nivel de rentabilidad sin invertir capital de trabajo. Eso desarma la idea de que
+    ventas especiales no es rentable.
+  - >-
+    Que primero le reconozcan que la competencia está siendo agresiva con los descuentos, y
+    después le hagan ver que, aunque Toyota no sea la más agresiva en precio, tiene muchas
+    herramientas complementarias que hacen muy competitiva la propuesta integral al cliente,
+    además de la confiabilidad y el QDR (calidad, durabilidad y confiabilidad) de los productos.
+  - >-
+    Que le hagan entender la importancia de la relación comercial de largo plazo con el
+    cliente más allá de la situación puntual del mercado: con faltante de unidades, tener al
+    cliente ya clasificado como flotillero le permite acceder a la venta directa.
+limite: >-
+  Máximo acuerdo: reconoce los desvíos, entiende la importancia de desarrollar todos los
+  canales y se compromete a que sus vendedores empiecen a canalizar operaciones por Ventas
+  Especiales, con un plan de acción. Llega ahí solo si el representante trabajó los cuatro
+  puntos de "qué te hace cambiar de postura"; con menos, acepta revisar los números pero sin
+  comprometer un plan.
+referencias:
+  ar:
+    - nombre: Autolux
+      detalle: 2 sucursales en el Norte argentino
+      fuente: ''

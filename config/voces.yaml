@@ -14,10 +14,10 @@ br:
 caras:
   ar:
     hombre: 3bad681f-1b4a-4507-bc54-fbc675c191b7   # Victor: canoso, barba
-    mujer: 99126e69-c224-404c-9aed-80805c1c9a94    # Sophie: blusa blanca
+    mujer: f735e62c-dce7-4c0b-8e85-1c7e21774c45    # Sara: suéter claro
   br:
-    hombre: 9fcd5739-bf66-49a5-b525-d02d7f0bc2fc   # Hank: camisa blanca
-    mujer: 5a83913c-411b-4afd-8432-b7d685e2aee6    # Claire: saco bordó
+    hombre: 3dcb9c78-8822-4e6e-913f-b629c602524a   # Jordan: suéter negro
+    mujer: 99126e69-c224-404c-9aed-80805c1c9a94    # Sophie: blusa blanca
 
 # Modelos. flash_v2_5 es el de menor demora con español y portugués.
 modelo_voz: eleven_flash_v2_5
